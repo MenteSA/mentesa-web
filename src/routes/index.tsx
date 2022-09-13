@@ -5,7 +5,7 @@ import PatientRoutes from "./patients.routes";
 import ProfessionalRoutes from "./professional.routes";
 
 const Routes: React.FC = () => {
-  const logged = false;
+  const logged = true;
   const professional = false;
   return (
     <BrowserRouter>
