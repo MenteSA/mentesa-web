@@ -7,7 +7,7 @@ const ProfessionalRoutes: React.FC = () => (
   <Layout>
     <Routes>
       <Route path="/" element={<Dashboard />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/dashboard" element={<Dashboard />} />      
     </Routes>
   </Layout>
 );

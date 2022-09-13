@@ -1,5 +1,6 @@
 import MenuList from "../MenuList";
 import { Container, Header, UserContainer } from "./style";
+import { BoxArrowRight } from 'react-bootstrap-icons';
 
 const Aside: React.FC = () => {
   return (
@@ -10,7 +11,7 @@ const Aside: React.FC = () => {
         <UserContainer>
           <h4>nome Usuario</h4>
           <button>
-            <span>icone</span>
+            <BoxArrowRight color="red"size={22} className="icon"/>
           </button>
         </UserContainer>
       </Header>
