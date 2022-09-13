@@ -6,7 +6,7 @@ import ProfessionalRoutes from "./professional.routes";
 
 const Routes: React.FC = () => {
   const logged = true;
-  const professional = true;
+  const professional = false;
   return (
     <BrowserRouter>
       {logged && professional ? (
