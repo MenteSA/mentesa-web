@@ -1,35 +1,51 @@
-import {
-  Container,
-  Form,
-  Input,
-  Title,
-  HelperContainer,
-  CreateAccountContainer,
-  SubmitContainer,
-} from "./style";
+import { useState } from "react";
+import FormLayout from "../../components/FormLayout";
+import { Input, HelperContainer, CreateAccountContainer } from "./style";
 
 const Login: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (email !== "" && password !== "") {
+      console.log("logar");
+    }
+  };
+
   return (
-    <Container>
-      <Form>
-        <Title>Mente Sã</Title>
-        <h3>Bem vindo ao sistema</h3>
-        <p>Por favor entre com sua conta</p>
-        <Input type="email" placeholder="E-mail"></Input>
-        <Input type="password" placeholder="Senha"></Input>
-        <HelperContainer>
-          <input type="checkbox"></input>
-          <span>Lembrar Usuário</span>
-          <a>Esqueci minha senha?</a>
-        </HelperContainer>
-        <CreateAccountContainer>
-          <a>Criar Conta</a>
-        </CreateAccountContainer>
-        <SubmitContainer>
-          <input type="submit" value="Login"></input>
-        </SubmitContainer>
-      </Form>
-    </Container>
+    <FormLayout
+      handleSubmit={handleSubmit}
+      title="Mente Sã"
+      subtitle="Bem vindo ao sistema"
+      information="Por favor entre com sua conta"
+    >
+      <Input
+        type="email"
+        placeholder="E-mail"
+        onChange={(e) => {
+          setEmail(e.target.value);
+        }}
+      />
+      <Input
+        type="password"
+        placeholder="Senha"
+        onChange={(e) => {
+          setPassword(e.target.value);
+        }}
+      />
+      <HelperContainer>
+        <label>
+          <input type="checkbox" />
+          Lembrar Usuário
+        </label>
+        <a>Esqueci minha senha?</a>
+      </HelperContainer>
+      <CreateAccountContainer>
+        <a href="/createProfessionalAccount">Criar Conta</a>
+      </CreateAccountContainer>
+    </FormLayout>
   );
 };
 

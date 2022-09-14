@@ -7,20 +7,11 @@ export const HelperContainer = styled.div`
   margin: 10px 0px 10px;
   color: #666666;
 
-  input {
-    margin-right: 5px;
-  }
-`;
-export const CreateAccountContainer = styled.div`
-  margin: 10px 0px 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #666666;
-  a {
-    font-size: 15px;
-    margin-bottom: 10px;
+  label {
+    font-size: small;
+    input {
+      margin-right: 5px;
+    }
   }
 `;
 
