@@ -14,10 +14,18 @@ const Login: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (email !== "" && password !== "") {
+    if (email === "admin@admin" && password === "123") {
       console.log("logar");
       signIn();
-      setUser("Dr Chico", true);
+      setUser("Dr. Chico", true);
+    } else if (email === "pac@pac" && password === "123") {
+      console.log("logar");
+      signIn();
+      setUser("Chico", false);
+    } else if (email !== "" && password !== "") {
+      console.log("logar");
+      signIn();
+      setUser("Dr. Chico", true);
     }
   };
 

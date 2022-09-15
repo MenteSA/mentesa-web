@@ -1,9 +1,18 @@
+import DashboardPatientContent from "../../components/DashboardPatientContent";
+import DashboardProfessionalContent from "../../components/DashboardProfessionalContent";
+import { useUser } from "../../context/user.context";
 import { Container } from "./style";
 
 const Dashboard: React.FC = () => {
+  const { professional } = useUser();
+
   return (
     <Container>
-      <h1>dash</h1>
+      {professional ? (
+        <DashboardProfessionalContent />
+      ) : (
+        <DashboardPatientContent />
+      )}
     </Container>
   );
 };

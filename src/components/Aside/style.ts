@@ -30,7 +30,9 @@ export const UserContainer = styled.div`
   h4 {
     margin-right: 10px;
   }
-  .icon{
-    margin: 3px;    
+
+  .icon {
+    margin: 3px;
+    color: red;
   }
 `;
