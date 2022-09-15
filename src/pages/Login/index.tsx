@@ -1,16 +1,23 @@
 import { useState } from "react";
 import FormLayout from "../../components/FormLayout";
+import { useAuth } from "../../context/auth.context";
+import { useUser } from "../../context/user.context";
 import { Input, HelperContainer, CreateAccountContainer } from "./style";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { signIn } = useAuth();
+  const { setUser } = useUser();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (email !== "" && password !== "") {
       console.log("logar");
+      signIn();
+      setUser("Dr Chico", true);
     }
   };
 
