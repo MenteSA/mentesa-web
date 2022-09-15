@@ -1,21 +1,26 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FormLayout from "../../components/FormLayout";
+import { useAuth } from "../../context/auth.context";
+import { useUser } from "../../context/user.context";
 import { HelperContainer, Input } from "./style";
 
 const ProfessionalCreate: React.FC = () => {
-  const [nome, setNome] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [termsAccept, setTermsAccept] = useState(false);
+
   const navigate = useNavigate();
+  const { signIn } = useAuth();
+  const { setUser } = useUser();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (
-      nome !== "" &&
+      name !== "" &&
       email !== "" &&
       password !== "" &&
       passwordConfirmation !== "" &&
@@ -24,6 +29,8 @@ const ProfessionalCreate: React.FC = () => {
     ) {
       console.log("cadastrar");
       navigate("/");
+      setUser(name, true);
+      signIn();
     }
   };
 
@@ -38,7 +45,7 @@ const ProfessionalCreate: React.FC = () => {
         type="text"
         placeholder="Nome"
         onChange={(e) => {
-          setNome(e.target.value);
+          setName(e.target.value);
         }}
       />
       <Input
