@@ -21,4 +21,10 @@ Para executar o projeto com o docker utilizar os comandos
   npm i
   npm run dev
 ```
-    
+
+### Contribuidores
+
+- [Alessandra Canuto](https://github.com/alecanutto)
+- [Angélica Resende](https://github.com/angelresende)
+- [Jiuney Pachevitch](https://github.com/jiuneypachevitch)
+- [Richard Augusto Bueno](https://github.com/rbuenodev)
