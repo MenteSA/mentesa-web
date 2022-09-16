@@ -1,14 +1,14 @@
 import { ReactNode } from "react";
 import { Container, Form, Title, SubmitContainer } from "./style";
 
-interface Iprops {
+interface IProps {
   title: string;
   subtitle: string;
   information: string;
   children: ReactNode;
   handleSubmit(event: React.FormEvent<HTMLFormElement>): void;
 }
-const FormLayout: React.FC<Iprops> = ({
+const FormLayout: React.FC<IProps> = ({
   title,
   subtitle,
   information,

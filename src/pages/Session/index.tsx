@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useUser } from "../../context/user.context";
 import { Container } from "./style";
 
 const Session: React.FC = () => {
-  const { type } = useParams<{ type: string }>();
-  return <Container>`sessão {type}`</Container>;
+  const { professional } = useUser();
+  return <Container>`sessão {professional}`</Container>;
 };
 
 export default Session;

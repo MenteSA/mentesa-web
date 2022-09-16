@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "../pages/Login";
-import ProfessionalCreate from "../pages/ProfessionalCreate";
+import ProfessionalCreate from "../pages/Professional/Create";
 
 const AuthRoutes: React.FC = () => (
   <Routes>

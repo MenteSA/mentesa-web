@@ -1,9 +1,9 @@
 import { Container } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useUser } from "../../context/user.context";
 
 const Schedulling: React.FC = () => {
-  const { type } = useParams<{ type: string }>();
+  const { professional } = useUser();
 
-  return <Container>`agendamento {type}`</Container>;
+  return <Container>`agendamento {professional}`</Container>;
 };
 export default Schedulling;

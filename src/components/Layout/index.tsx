@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import Aside from "../Aside";
-import Content from "../Content";
+import Aside from "./Aside";
+import Content from "./Content";
 import { Grid } from "./style";
 
 interface BaseLayoutProps {

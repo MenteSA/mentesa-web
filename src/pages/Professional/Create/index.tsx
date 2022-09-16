@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FormLayout from "../../components/FormLayout";
-import { useAuth } from "../../context/auth.context";
-import { useUser } from "../../context/user.context";
+import FormLayout from "../../../components/FormLayout";
+import { useAuth } from "../../../context/auth.context";
+import { useUser } from "../../../context/user.context";
 import { HelperContainer, Input } from "./style";
 
 const ProfessionalCreate: React.FC = () => {
