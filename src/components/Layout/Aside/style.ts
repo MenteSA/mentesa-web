@@ -5,6 +5,12 @@ export const Container = styled.div`
   background: #6813d4;
 `;
 
+export const PerfilButton = styled.button`
+  background: #6813d4;
+  color: #fff;
+  margin-right: 15px;
+`;
+
 export const Header = styled.header`
   display: flex;
   flex-direction: column;
@@ -28,7 +34,7 @@ export const UserContainer = styled.div`
   margin-top: 10px;
 
   h4 {
-    margin-right: 10px;
+    margin-right: 20px;
   }
 
   .icon {

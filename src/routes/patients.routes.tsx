@@ -9,9 +9,9 @@ const PatientRoutes: React.FC = () => (
   <Layout>
     <Routes>
       <Route path="/" element={<Dashboard />} />
-      <Route path="/dashboard/" element={<Dashboard />} />
-      <Route path="/schedulling/:type" element={<Schedulling />} />
-      <Route path="/sessions/:type" element={<Session />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/schedulling" element={<Schedulling />} />
+      <Route path="/sessions" element={<Session />} />
     </Routes>
   </Layout>
 );
