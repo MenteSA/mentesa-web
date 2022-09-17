@@ -5,15 +5,15 @@ export interface IUserRegisterDto {
 }
 
 export interface IUserDto {
-  id: number;
-  email: string;
-  password: string;
-  role: string;
-  createdAt: string;
-  updatedAt: string;
+  id?: number;
+  email?: string;
+  password?: string;
+  role?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IUserRegisterResponseDto {
-  data: IUserDto;
-  message: string;
+  data: { user?: IUserDto };
+  message?: string;
 }

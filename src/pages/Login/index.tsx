@@ -1,57 +1,90 @@
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import FormLayout from "../../components/FormLayout";
 import { useAuth } from "../../context/auth.context";
 import { useUser } from "../../context/user.context";
+import {
+  IAuthResponseDto,
+  ILoginPropsDto,
+} from "../../services/Auth/dtos/auth.dto";
+import { fetchUserLogin } from "../../services/Auth/service";
 import { Input, HelperContainer, CreateAccountContainer } from "./style";
 
+type FormValues = {
+  email: string;
+  password: string;
+};
+
 const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  
+  const navigate = useNavigate();
 
   const { signIn } = useAuth();
   const { setUser } = useUser();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<FormValues>();
 
-    if (email === "admin@admin" && password === "123") {
-      console.log("logar");
-      signIn();
-      setUser("Dr. Chico", true);
-    } else if (email === "pac@pac" && password === "123") {
-      console.log("logar");
-      signIn();
-      setUser("Chico", false);
-    } else if (email !== "" && password !== "") {
-      console.log("logar");
-      signIn();
-      setUser("Dr. Chico", true);
+  const onSubmit = handleSubmit((data) => {
+    if (data.password.length < 8) {
+      setError("password", { message: "Minímo 8 caracteres" });
+
+      toast.error("Por favor, verifique as senhas. ");
+      return;
     }
-  };
+
+    if (data.email.length < 5) {
+      setError("email", { message: "Campo obrigatório." });
+
+      toast.error("Por favor, verifique o e-mail. ");
+      return;
+    }
+
+    if (data.password !== "" && data.email !== "") {
+      mutate(data);
+    }
+  });
+
+  const { mutate } = useMutation(
+    (user: ILoginPropsDto) => fetchUserLogin(user),
+    {
+      onSuccess: (data: IAuthResponseDto) => {
+        console.log(data);
+        if (data.login === undefined) {
+          toast.error(`Ops, ${data.message}`);
+        } else {
+          toast.success("Usuário registrado com sucesso", {
+            hideProgressBar: false,
+          });
+          //navigate("/");
+        }
+      },
+      onError: (data) => {
+        toast.error(`Ops, algo aconteceu ${data}`);
+      },
+    }
+  );
 
   return (
     <FormLayout
-      handleSubmit={handleSubmit}
+      handleSubmit={onSubmit}
       title="Mente Sã"
       subtitle="Bem vindo ao sistema"
       information="Por favor entre com sua conta"
       buttonDescription="Login"
       returnForm={false}
     >
-      <Input
-        type="email"
-        placeholder="E-mail"
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-      />
-      <Input
-        type="password"
-        placeholder="Senha"
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      />
+      <Input {...register("email")} type="email" placeholder="E-mail" />
+      {errors.email && <p>{errors.email.message}</p>}
+      <Input {...register("password")} type="password" placeholder="Senha" />
+      {errors.password && <p>{errors.password.message}</p>}
       <HelperContainer>
         <label>
           <input type="checkbox" />

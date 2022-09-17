@@ -1,3 +1,8 @@
+export interface ILoginPropsDto {
+  email: string;
+  password?: string;
+}
+
 export interface IAccessTokenDto {
   token: string;
   refresh_token: string;
@@ -14,5 +19,10 @@ export interface ILoginDto {
 export interface IAuthResponseDto {
   accessToken: IAccessTokenDto;
   login: ILoginDto;
+  message: string;
+}
+
+export interface IRefreshTokenDto {
+  token: string;
   message: string;
 }
