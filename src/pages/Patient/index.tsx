@@ -84,7 +84,6 @@ const Patients: React.FC = () => {
                         <td><strong></strong></td>
                         <td><strong></strong></td>
                         <td><strong></strong></td>
-                        <td><strong></strong></td>
                         <td>
                             <a 
                                 href='' 
