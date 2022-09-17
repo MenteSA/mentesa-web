@@ -67,16 +67,19 @@ const Patients: React.FC = () => {
                     <Table  className='table table-striped table-hover'>
                     <thead style={{background: '#6813D5'}}>
                         <tr>
-                        <th style={{color: '#fff'}}>Paciente</th>
-                        <th style={{color: '#fff'}}>Agendamento</th>
-                        <th style={{color: '#fff'}}>Tema Abordado</th>
-                        <th style={{color: '#fff'}}>Duração</th>
-                        <th style={{color: '#fff'}}>Tipo de sessão</th>
+                        <th style={{color: '#fff'}}>Nome</th>
+                        <th style={{color: '#fff'}}>Endereço</th>
+                        <th style={{color: '#fff'}}>E-mail</th>
+                        <th style={{color: '#fff'}}>Gênero</th>
+                        <th style={{color: '#fff'}}>Estado</th>
+                        <th style={{color: '#fff'}}>Cidade</th>
                         <th style={{color: '#fff'}}>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
+                        <td><strong></strong></td>
+                        <td><strong></strong></td>
                         <td><strong></strong></td>
                         <td><strong></strong></td>
                         <td><strong></strong></td>
