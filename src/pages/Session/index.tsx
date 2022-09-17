@@ -22,7 +22,7 @@ const Session: React.FC = () => {
                     <Table className='table-title'>
                         <Row>
                             <Col sm={12}>
-                            <h4 style={{color:'#666666', fontSize: 32}}>Meus Pacientes</h4>
+                            <h4 style={{color:'#666666', fontSize: 32}}>Minhas sessões</h4>
                             </Col>
                             <Col sm={6}>
                             <Form className="d-flex">
@@ -58,7 +58,7 @@ const Session: React.FC = () => {
                                 }}
                                 >
                                 <FontAwesomeIcon icon={faPlusSquare} />
-                                Novo Paciente
+                                Nova Sessão
                                 </Button> 
                             </Col>
                         </Row>
