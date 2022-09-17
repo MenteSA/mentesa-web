@@ -1,16 +1,28 @@
 import DashboardCard from "../../DashboardCard";
-import { Container } from "./style";
+import { Container, Row } from 'react-bootstrap';
+
 
 const DashboardProfessionalContent: React.FC = () => {
   return (
     <Container>
-      <DashboardCard description="Sessões agendadas (dia)" value="20" />
-      <DashboardCard description="Sessões agendadas (mês)" value="25" />
-      <DashboardCard description="Sessões canceladas (mês)" value="2" />
-      <DashboardCard description="Total de pacientes cadastrados" value="200" />
+      <Row>
+        <DashboardCard description="Sessões agendadas (dia)" value="20" />
+        <DashboardCard description="Sessões agendadas (mês)" value="25" />
+      </Row>
+      
+      <Row>
+        <DashboardCard description="Sessões canceladas (mês)" value="2" />
+        <DashboardCard description="Total de pacientes cadastrados" value="200" />
+      </Row>
+      
+      <Row>
       <DashboardCard description="Total de sessões (individuais)" value="20" />
       <DashboardCard description="Total de sessões (duplas)" value="10" />
+      </Row>
+      
+      <Row>
       <DashboardCard description="Total de sessões (grupo)" value="10" />
+      </Row>
     </Container>
   );
 };
