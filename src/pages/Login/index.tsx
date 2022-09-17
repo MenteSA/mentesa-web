@@ -35,6 +35,8 @@ const Login: React.FC = () => {
       title="Mente Sã"
       subtitle="Bem vindo ao sistema"
       information="Por favor entre com sua conta"
+      buttonDescription="Login"
+      returnForm={false}
     >
       <Input
         type="email"

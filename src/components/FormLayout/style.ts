@@ -16,6 +16,7 @@ export const Form = styled.form`
   border-radius: 10px;
   background: #fff;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+
   h3 {
     color: #6813d4;
     padding-bottom: 15px;
@@ -23,6 +24,7 @@ export const Form = styled.form`
 
   a {
     cursor: pointer;
+    color: #6813d4;
   }
 `;
 
