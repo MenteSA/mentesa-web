@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FormLayoutPatient from "../../../components/FormLayout/patient";
-import { HelperContainer, Input } from "./style";
+import { Input } from "./style";
 
 const PatientCreate: React.FC = () => {
   const [nome, setNome] = useState("");
