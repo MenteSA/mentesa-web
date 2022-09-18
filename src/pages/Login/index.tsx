@@ -19,11 +19,10 @@ type FormValues = {
 };
 
 const Login: React.FC = () => {
-  
   const navigate = useNavigate();
-
-  const { signIn } = useAuth();
-  const { setUser } = useUser();
+  const [rememberPassword, setRememberPassword] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const { setAuthenticatedUser, saveEmail, getEmail } = useUser();
 
   const {
     register,
@@ -56,14 +55,18 @@ const Login: React.FC = () => {
     (user: ILoginPropsDto) => fetchUserLogin(user),
     {
       onSuccess: (data: IAuthResponseDto) => {
-        console.log(data);
-        if (data.login === undefined) {
+        const { login } = data;
+
+        if (login === undefined) {
           toast.error(`Ops, ${data.message}`);
         } else {
           toast.success("Usuário registrado com sucesso", {
             hideProgressBar: false,
           });
-          //navigate("/");
+          if (isAuthenticated()) {
+            setAuthenticatedUser(login);
+            navigate("/");
+          }
         }
       },
       onError: (data) => {

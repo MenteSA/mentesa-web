@@ -9,7 +9,11 @@ export function useUserRegistration(
 ): UseQueryResult<IUserRegisterDto> {
   const queryKey = ["userRegister"];
 
-  return useQuery(queryKey, () => fetchRegisterUser(email, password, name), {
-    keepPreviousData: true,
-  });
+  return useQuery(
+    queryKey,
+    () => fetchRegisterUser({ email, password, name }),
+    {
+      keepPreviousData: true,
+    }
+  );
 }

@@ -6,15 +6,18 @@ import { useUser } from "../../../context/user.context";
 import { useAuth } from "../../../context/auth.context";
 import { useNavigate } from "react-router-dom";
 import { FilePerson } from "react-bootstrap-icons";
+import { fetchUserLogout } from "../../../services/Auth/service";
 
 const Aside: React.FC = () => {
-  const { signOut } = useAuth();
-  const { name, professional } = useUser();
+  const { isAdmin, authenticatedUser } = useUser();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  const handleSignOutClick = () => {
-    signOut();
-    navigate("/");
+  const handleSignOutClick = async () => {
+    await fetchUserLogout(authenticatedUser.email);
+    if (!isAuthenticated()) {
+      navigate("/");
+    }
   };
 
   return (
@@ -26,13 +29,13 @@ const Aside: React.FC = () => {
           <PerfilButton>
             <FilePerson size={22} />
           </PerfilButton>
-          <h4>{name}</h4>
+          <h4>{authenticatedUser.name}</h4>
           <button onClick={() => handleSignOutClick()}>
             <BoxArrowRight size={22} className="icon" />
           </button>
         </UserContainer>
       </Header>
-      <MenuList professional={professional} />
+      <MenuList professional={isAdmin} />
     </Container>
   );
 };

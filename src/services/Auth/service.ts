@@ -7,8 +7,6 @@ import {
 
 export const TOKEN_KEY = "@menteSa-Token";
 export const REFRESH_TOKEN = "@menteSa-RefreshTokem";
-export const USER_EMAIL = "@menteSa-UserEmail";
-
 export async function fetchUserLogin({
   email,
   password,
@@ -16,7 +14,7 @@ export async function fetchUserLogin({
   const url = "auth/login";
   const payload = { email, password };
 
-  return await api
+  const result = await api
     .post(url, payload)
     .then((response) => {
       return response.data;
@@ -28,10 +26,22 @@ export async function fetchUserLogin({
       };
       return data;
     });
+
+  if (result.login !== undefined) {
+    localStorage.setItem(TOKEN_KEY, JSON.stringify(result.accessToken.token));
+    localStorage.setItem(
+      REFRESH_TOKEN,
+      JSON.stringify(result.accessToken.refresh_token)
+    );
+  }
+
+  return result;
 }
-export async function fetchUserLogout({ email }: ILoginPropsDto) {
+export async function fetchUserLogout(userEmail: string) {
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(REFRESH_TOKEN);
   const url = "auth/logout";
-  const payload = { email };
+  const payload = { email: userEmail };
 
   const { status } = await api.post(url, payload);
   return status;
@@ -44,7 +54,7 @@ export async function fetchRefreshToken(
 
   const payload = { refreshToken };
 
-  return await api
+  const result = await api
     .post(url, payload)
     .then((response) => {
       return response.data;
@@ -56,4 +66,12 @@ export async function fetchRefreshToken(
       };
       return data;
     });
+  if (result.token !== undefined) {
+    localStorage.setItem(TOKEN_KEY, JSON.stringify(result.token));
+  }
+
+  return result;
 }
+
+export const getToken = () => localStorage.getItem(TOKEN_KEY);
+export const getRefreshToken = () => localStorage.getItem(REFRESH_TOKEN);

@@ -9,15 +9,15 @@ import PatientRoutes from "./patients.routes";
 import ProfessionalRoutes from "./professional.routes";
 
 const Routes: React.FC = () => {
-  const { logged } = useAuth();
-  const { professional } = useUser();
+  const { isAuthenticated } = useAuth();
+  const { isAdmin } = useUser();
 
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        {logged && professional ? (
+        {isAuthenticated() && isAdmin ? (
           <ProfessionalRoutes />
-        ) : logged && !professional ? (
+        ) : isAuthenticated() && !isAdmin ? (
           <PatientRoutes />
         ) : (
           <AuthRoutes />

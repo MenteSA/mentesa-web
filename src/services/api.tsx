@@ -1,14 +1,11 @@
 import axios from "axios";
-import { useAuth } from "../context/auth.context";
-import { fetchRefreshToken } from "./Auth/service";
+import { fetchRefreshToken, getRefreshToken, getToken } from "./Auth/service";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
 });
 
 api.interceptors.request.use(async (config) => {
-  const { getToken } = useAuth();
-
   const token = getToken();
   if (token) {
     config.headers!.Authorization = `Bearer ${JSON.parse(token)}`;
@@ -24,8 +21,6 @@ api.interceptors.response.use(
   },
 
   async function (error) {
-    const { getRefreshToken } = useAuth();
-
     const refresh_token = getRefreshToken();
 
     if (error.response.status === 401 && refresh_token) {
