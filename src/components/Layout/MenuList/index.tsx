@@ -2,6 +2,7 @@ import { Container } from "./style";
 import NavLinkMenu from "../NavLinkMenu";
 import {
   House,
+  PeopleFill,
   PersonFill,
   CalendarEvent,
   Calendar3,
@@ -20,7 +21,7 @@ const MenuList: React.FC<IProps> = ({ professional }) => {
       </NavLinkMenu>
       {professional && (
         <NavLinkMenu navigateTo="/patients" title="Pacientes">
-          <PersonFill size={22} />
+          <PeopleFill size={22} />
         </NavLinkMenu>
       )}
       <NavLinkMenu navigateTo="/sessions" title="Sessão">
@@ -32,6 +33,11 @@ const MenuList: React.FC<IProps> = ({ professional }) => {
       {professional && (
         <NavLinkMenu navigateTo="/resources" title="Recursos">
           <CardText size={22} />
+        </NavLinkMenu>
+      )}
+      {professional && (
+        <NavLinkMenu navigateTo="/myprofile" title="Perfil">
+          <PersonFill size={22} />
         </NavLinkMenu>
       )}
     </Container>

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  height: 100vh;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -13,6 +12,7 @@ export const Container = styled.div`
 export const Form = styled.form`
   width: 400px;
   padding: 30px;
+  margin-top: 20px;
   border-radius: 10px;
   background: #fff;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;

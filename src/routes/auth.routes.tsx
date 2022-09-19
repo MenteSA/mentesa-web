@@ -6,7 +6,7 @@ import ProfessionalCreate from "../pages/Professional/Create";
 const AuthRoutes: React.FC = () => (
   <Routes>
     <Route path="/" element={<Login />} />
-    <Route path="/createProfessionalAccount" element={<ProfessionalCreate />} />
+    <Route path="/" element={<ProfessionalCreate />} />
   </Routes>
 );
 
