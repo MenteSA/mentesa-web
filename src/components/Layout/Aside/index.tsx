@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import MenuList from "../MenuList";
 import { Container, Header, PerfilButton, UserContainer } from "./style";
 import { BoxArrowRight } from "react-bootstrap-icons";
@@ -10,15 +10,24 @@ import { fetchUserLogout } from "../../../services/Auth/service";
 
 const Aside: React.FC = () => {
   const { isAdmin, authenticatedUser } = useUser();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated,verifyAuthentication } = useAuth();
   const navigate = useNavigate();
 
   const handleSignOutClick = async () => {
     await fetchUserLogout(authenticatedUser.email);
-    if (!isAuthenticated()) {
+    if (!isAuthenticated) {
       navigate("/");
     }
   };
+
+  const handleLogoutClick = useCallback(async () => {
+    await fetchUserLogout(authenticatedUser.email).then(() => {
+      verifyAuthentication();
+      if (!isAuthenticated) {
+        navigate("/");
+      }
+    });
+  }, [isAuthenticated]);
 
   return (
     <Container>
@@ -30,7 +39,7 @@ const Aside: React.FC = () => {
             <FilePerson size={22} />
           </PerfilButton>
           <h4>{authenticatedUser.name}</h4>
-          <button onClick={() => handleSignOutClick()}>
+          <button onClick={() => handleLogoutClick()}>
             <BoxArrowRight size={22} className="icon" />
           </button>
         </UserContainer>

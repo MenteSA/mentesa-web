@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -20,14 +20,23 @@ type FormValues = {
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const [rememberPassword, setRememberPassword] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const [rememberEmail, setRememberEmail] = useState(false);
+  const { isAuthenticated, verifyAuthentication } = useAuth();
   const { setAuthenticatedUser, saveEmail, getEmail } = useUser();
+
+  useLayoutEffect(() => {
+    const email = getEmail();
+    if (email) {
+      setValue("email", email);
+      setRememberEmail(true);
+    }
+  }, []);
 
   const {
     register,
     handleSubmit,
     setError,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>();
 
@@ -47,6 +56,10 @@ const Login: React.FC = () => {
     }
 
     if (data.password !== "" && data.email !== "") {
+      if (rememberEmail) {
+        saveEmail(data.email);
+      }
+
       mutate(data);
     }
   });
@@ -56,15 +69,15 @@ const Login: React.FC = () => {
     {
       onSuccess: (data: IAuthResponseDto) => {
         const { login } = data;
-
         if (login === undefined) {
           toast.error(`Ops, ${data.message}`);
         } else {
           toast.success("Usuário registrado com sucesso", {
             hideProgressBar: false,
           });
-          if (isAuthenticated()) {
-            setAuthenticatedUser(login);
+          setAuthenticatedUser(login);
+          verifyAuthentication();
+          if (isAuthenticated) {
             navigate("/");
           }
         }
@@ -90,7 +103,11 @@ const Login: React.FC = () => {
       {errors.password && <p>{errors.password.message}</p>}
       <HelperContainer>
         <label>
-          <input type="checkbox" />
+          <input
+            checked={rememberEmail}
+            type="checkbox"
+            onChange={(e) => setRememberEmail(e.target.checked)}
+          />
           Lembrar Usuário
         </label>
         <a>Esqueci minha senha?</a>

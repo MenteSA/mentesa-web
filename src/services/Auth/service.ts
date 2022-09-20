@@ -38,12 +38,15 @@ export async function fetchUserLogin({
   return result;
 }
 export async function fetchUserLogout(userEmail: string) {
-  localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem(REFRESH_TOKEN);
   const url = "auth/logout";
   const payload = { email: userEmail };
 
   const { status } = await api.post(url, payload);
+  if (status === 200) {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(REFRESH_TOKEN);
+  }
+
   return status;
 }
 

@@ -15,9 +15,9 @@ const Routes: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        {isAuthenticated() && isAdmin ? (
+        {isAuthenticated && isAdmin ? (
           <ProfessionalRoutes />
-        ) : isAuthenticated() && !isAdmin ? (
+        ) : isAuthenticated && !isAdmin ? (
           <PatientRoutes />
         ) : (
           <AuthRoutes />
