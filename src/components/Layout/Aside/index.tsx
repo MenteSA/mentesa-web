@@ -4,28 +4,20 @@ import { Container, Header, PerfilButton, UserContainer } from "./style";
 import { BoxArrowRight } from "react-bootstrap-icons";
 import { useUser } from "../../../context/user.context";
 import { useAuth } from "../../../context/auth.context";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FilePerson } from "react-bootstrap-icons";
 import { fetchUserLogout } from "../../../services/Auth/service";
 
 const Aside: React.FC = () => {
   const { isAdmin, authenticatedUser } = useUser();
-  const { isAuthenticated,verifyAuthentication } = useAuth();
+  const { isAuthenticated, verifyAuthentication } = useAuth();
   const navigate = useNavigate();
-
-  const handleSignOutClick = async () => {
-    await fetchUserLogout(authenticatedUser.email);
-    if (!isAuthenticated) {
-      navigate("/");
-    }
-  };
 
   const handleLogoutClick = useCallback(async () => {
     await fetchUserLogout(authenticatedUser.email).then(() => {
       verifyAuthentication();
-      if (!isAuthenticated) {
-        navigate("/");
-      }
+
+      navigate("/");
     });
   }, [isAuthenticated]);
 
@@ -36,7 +28,9 @@ const Aside: React.FC = () => {
         <p>Bem vindo(a),</p>
         <UserContainer>
           <PerfilButton>
-            <FilePerson size={22} />
+            <NavLink to="/my-profile" className="perfilIcon">
+              <FilePerson size={22} />
+            </NavLink>
           </PerfilButton>
           <h4>{authenticatedUser.name}</h4>
           <button onClick={() => handleLogoutClick()}>
