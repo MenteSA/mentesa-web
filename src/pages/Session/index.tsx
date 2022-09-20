@@ -83,39 +83,22 @@ const Session: React.FC = () => {
                         <td><strong></strong></td>
                         <td><strong></strong></td>
                         <td>
-                            <a 
-                                href='' 
-                                data-toggle='modal'
+                            <Button 
+                                onClick={handleShow}
+                                style={{marginLeft: 12, backgroundColor: '#6813D5' }}
                             >
                                 <FontAwesomeIcon 
-                                    style={{color: '#00A3FF'}}
-                                    icon={ faEyeLowVision } 
-                                    data-toggle='tooltip' 
-                                    title='View'
-                                />
-                            </a>
-                            <a 
-                                href='' 
-                                data-toggle='modal'
-                            >
-                                <FontAwesomeIcon 
-                                    style={{marginLeft: 12, color: '#6813D5'}}
                                     icon={ faEdit } 
-                                    data-toggle='tooltip' 
-                                    title='Edit'
                                 />
-                            </a>
-                            <a 
-                                href='' 
-                                data-toggle='modal'
+                            </Button>
+                            <Button  
+                                variant="danger"
+                                style={{marginLeft: 12}}
                             >
                                 <FontAwesomeIcon 
-                                    style={{marginLeft: 12, color: '#F44336'}}
                                     icon={ faTrashCan } 
-                                    data-toggle='tooltip' 
-                                    title='Delete'
                                 />
-                            </a>
+                            </Button>
                         </td>
                         </tr>
                         
@@ -123,6 +106,9 @@ const Session: React.FC = () => {
                     </Table >          
                             
                     <Modal show={show}>
+                        <Modal.Header>
+                            <Modal.Title>Cadastrar Sessão</Modal.Title>
+                        </Modal.Header>
                         <Modal.Body>
                             <SessionCreate />
                         </Modal.Body>

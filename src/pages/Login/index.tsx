@@ -12,6 +12,8 @@ import {
 } from "../../services/Auth/dtos/auth.dto";
 import { fetchUserLogin } from "../../services/Auth/service";
 import { Input, HelperContainer, CreateAccountContainer } from "./style";
+import { Container, Modal } from "react-bootstrap";
+import ProfessionalCreate from "../Professional/Create";
 
 type FormValues = {
   email: string;
@@ -23,6 +25,9 @@ const Login: React.FC = () => {
   const [rememberEmail, setRememberEmail] = useState(false);
   const { isAuthenticated, verifyAuthentication } = useAuth();
   const { setAuthenticatedUser, saveEmail, getEmail } = useUser();
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useLayoutEffect(() => {
     const email = getEmail();
@@ -89,33 +94,42 @@ const Login: React.FC = () => {
   );
 
   return (
-    <FormLayout
-      handleSubmit={onSubmit}
-      title="Mente Sã"
-      subtitle="Bem vindo ao sistema"
-      information="Por favor entre com sua conta"
-      buttonDescription="Login"
-      returnForm={false}
-    >
-      <Input {...register("email")} type="email" placeholder="E-mail" />
-      {errors.email && <p>{errors.email.message}</p>}
-      <Input {...register("password")} type="password" placeholder="Senha" />
-      {errors.password && <p>{errors.password.message}</p>}
-      <HelperContainer>
-        <label>
-          <input
-            checked={rememberEmail}
-            type="checkbox"
-            onChange={(e) => setRememberEmail(e.target.checked)}
-          />
-          Lembrar Usuário
-        </label>
-        <a>Esqueci minha senha?</a>
-      </HelperContainer>
-      <CreateAccountContainer>
-        <a href="/createProfessionalAccount">Criar Conta</a>
-      </CreateAccountContainer>
-    </FormLayout>
+    <Container>
+      <FormLayout
+        handleSubmit={onSubmit}
+        title="Mente Sã"
+        subtitle="Bem vindo ao sistema"
+        information="Por favor entre com sua conta"
+        buttonDescription="Login"
+        returnForm={false}
+      >
+        <Input {...register("email")} type="email" placeholder="E-mail" />
+        {errors.email && <p>{errors.email.message}</p>}
+        <Input {...register("password")} type="password" placeholder="Senha" />
+        {errors.password && <p>{errors.password.message}</p>}
+        <HelperContainer>
+          <label>
+            <input
+              checked={rememberEmail}
+              type="checkbox"
+              onChange={(e) => setRememberEmail(e.target.checked)}
+            />
+            Lembrar Usuário
+          </label>
+          <a>Esqueci minha senha?</a>
+        </HelperContainer>
+        <CreateAccountContainer>
+          <label onClick={handleShow}>Criar Conta</label>
+        </CreateAccountContainer>
+      </FormLayout>
+
+      <Modal show={show} onHide={handleClose} animation={false}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          <ProfessionalCreate />
+        </Modal.Body>
+      </Modal>
+    </Container>
   );
 };
 
