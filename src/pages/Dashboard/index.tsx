@@ -4,15 +4,11 @@ import { useUser } from "../../context/user.context";
 import { Container } from "./style";
 
 const Dashboard: React.FC = () => {
-  const { professional } = useUser();
+  const { isAdmin } = useUser();
 
   return (
     <Container>
-      {professional ? (
-        <DashboardProfessionalContent />
-      ) : (
-        <DashboardPatientContent />
-      )}
+      {isAdmin ? <DashboardProfessionalContent /> : <DashboardPatientContent />}
     </Container>
   );
 };

@@ -13,7 +13,7 @@ const ProfessionalRoutes: React.FC = () => (
     <Routes>
       <Route path="/" element={<Dashboard />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/myprofile" element={<Professional />} />
+      <Route path="/my-profile" element={<Professional />} />
       <Route path="/patients" element={<Patients />} />
       <Route path="/schedulling" element={<Schedulling />} />
       <Route path="/sessions" element={<Session />} />

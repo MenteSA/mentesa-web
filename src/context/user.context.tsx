@@ -1,28 +1,61 @@
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import React, {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
+import { ILoginDto } from "../services/Auth/dtos/auth.dto";
 
 interface ILayoutProps {
   children?: ReactNode;
 }
+export const USER_EMAIL = "@menteSa-UserEmail";
 
 interface IUserContext {
-  name: string;
-  professional: boolean;
-  setUser(name: string, professional: boolean): void;
+  authenticatedUser: ILoginDto;
+  setAuthenticatedUser(authenticatedUser: ILoginDto): void;
+  isAdmin: boolean;
+  saveEmail(email: string): void;
+  getEmail(): string | null;
 }
 
 const UserContext = createContext<IUserContext>({} as IUserContext);
 
 const UserProvider: React.FC<ILayoutProps> = ({ children }) => {
-  const [name, setName] = useState<string>("");
-  const [professional, setProfessional] = useState<boolean>(false);
+  const [user, setUser] = useState<ILoginDto>({} as ILoginDto);
 
-  const setUser = (name: string, professional: boolean) => {
-    setName(name);
-    setProfessional(professional);
-  };
+  const isAdmin = useMemo(() => {
+    return user.role === "ADMIN";
+  }, [user]);
+
+  const authenticatedUser = useMemo(() => {
+    return user;
+  }, [user]);
+
+  const setAuthenticatedUser = useCallback((authenticatedUser: ILoginDto) => {
+    setUser(authenticatedUser);
+  }, []);
+
+  const saveEmail = useCallback((email: string) => {
+    localStorage.setItem(USER_EMAIL, email);
+  }, []);
+
+  const getEmail = useCallback(() => {
+    return localStorage.getItem(USER_EMAIL);
+  }, []);
 
   return (
-    <UserContext.Provider value={{ name, professional, setUser }}>
+    <UserContext.Provider
+      value={{
+        isAdmin,
+        setAuthenticatedUser,
+        authenticatedUser,
+        saveEmail,
+        getEmail,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

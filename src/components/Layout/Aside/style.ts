@@ -5,10 +5,12 @@ export const Container = styled.div`
   background: #6813d4;
 `;
 
-export const PerfilButton = styled.button`
-  background: #6813d4;
-  color: #fff;
-  margin-right: 15px;
+export const PerfilButton = styled.div`
+  .perfilIcon {
+    background: #6813d4;
+    color: #fff;
+    margin-right: 15px;
+  }
 `;
 
 export const Header = styled.header`

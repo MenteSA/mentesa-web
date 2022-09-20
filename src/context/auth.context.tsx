@@ -1,30 +1,40 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 interface ILayoutProps {
   children?: ReactNode;
 }
 
 interface IAuthContext {
-  logged: boolean;
-  signIn(): void;
-  signOut(): void;
+  isAuthenticated: boolean;
+  verifyAuthentication(): void;
 }
+
+export const TOKEN_KEY = "@menteSa-Token";
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 const AuthProvider: React.FC<ILayoutProps> = ({ children }) => {
-  const [logged, setLogged] = useState<boolean>(false);
+  const [tokenExists, setTokenExists] = useState<boolean>(
+    () => localStorage.getItem(TOKEN_KEY) != null
+  );
 
-  const signIn = () => {
-    setLogged(true);
-  };
+  const verifyAuthentication = useCallback(() => {
+    setTokenExists(localStorage.getItem(TOKEN_KEY) != null);
+  }, []);
 
-  const signOut = () => {
-    setLogged(false);
-  };
+  const isAuthenticated = useMemo(() => {
+    return tokenExists;
+  }, [tokenExists]);
 
   return (
-    <AuthContext.Provider value={{ logged, signIn, signOut }}>
+    <AuthContext.Provider value={{ isAuthenticated, verifyAuthentication }}>
       {children}
     </AuthContext.Provider>
   );
