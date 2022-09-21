@@ -77,7 +77,7 @@ const Login: React.FC = () => {
         if (login === undefined) {
           toast.error(`Ops, ${data.message}`);
         } else {
-          toast.success("Usuário registrado com sucesso", {
+          toast.success("Usuário logado com sucesso", {
             hideProgressBar: false,
           });
           setAuthenticatedUser(login);

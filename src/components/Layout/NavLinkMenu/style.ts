@@ -5,6 +5,7 @@ export const Container = styled.div`
     font-size: large;
     font-weight: bold;
     margin-left: 7px;
+    margin-top: 11px;
   }
 
   &:hover {
