@@ -1,7 +1,16 @@
+import react, { useEffect } from 'react';
 import { Button, Row, Col, Form } from "react-bootstrap";
+import { useMutation } from '@tanstack/react-query';
+import { fetchProfessionalProfile } from '../../services/Profissional/service';
 
 const Professional: React.FC = () => {
-  return (
+    const { mutate } = useMutation(() => fetchProfessionalProfile );
+
+    useEffect( () => {
+ 
+    },[]);
+
+  return ( 
     <div className="content-page">
       <div className="content">
         <div className="container-fluid">

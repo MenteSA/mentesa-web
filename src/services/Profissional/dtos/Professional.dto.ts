@@ -1,3 +1,4 @@
+/*
 export interface IProfessionalId {
   id: string;
 }
@@ -17,3 +18,13 @@ export interface IProfessional {
   contact: string;
   role: string;
 }
+*/
+
+export interface ProfessionalProfileDto {
+    nome: string;
+    crp: string;
+    approach: string;
+    email: string;
+    password: string;
+}
+
