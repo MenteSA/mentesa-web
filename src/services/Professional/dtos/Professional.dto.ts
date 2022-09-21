@@ -25,6 +25,6 @@ export interface ProfessionalProfileDto {
     crp: string;
     approach: string;
     email: string;
-    password: string;
+    cellphone: string;
 }
 

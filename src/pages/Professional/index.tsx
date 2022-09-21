@@ -1,14 +1,24 @@
-import react, { useEffect } from 'react';
+import react, { useEffect, useState } from 'react';
 import { Button, Row, Col, Form } from "react-bootstrap";
 import { useMutation } from '@tanstack/react-query';
-import { fetchProfessionalProfile } from '../../services/Profissional/service';
+import { useFetchProfessionalProfile } from '../../services/Professional/hooks';
+import { ProfessionalProfileDto } from '../../services/Professional/dtos/Professional';
+
 
 const Professional: React.FC = () => {
-    const { mutate } = useMutation(() => fetchProfessionalProfile );
-
+    const [ profile, setProfile ] = useState<ProfessionalProfileDto>({})
+    const { data } = useFetchProfessionalProfile();
     useEffect( () => {
- 
-    },[]);
+        if (data) {
+            setProfile({
+                name: data.data.professional.name,
+                crp: data.data.professional.crp,
+                approach: data.data.professional.approach,
+                email: data.data.professional.email,
+                cellphone: data.data.professional.cellphone,
+            });
+        } 
+    },[data]);
 
   return ( 
     <div className="content-page">
@@ -21,23 +31,23 @@ const Professional: React.FC = () => {
             <Form>
               <Form.Group className="mb-3">
                 <Form.Label>Nome</Form.Label>
-                <Form.Control type="text" />
+                <Form.Control type="text" value={ profile.name } onChange={ e => setProfile({ ...profile, name: e.target.value }) } />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>CRP</Form.Label>
-                <Form.Control type="text" />
+                <Form.Control type="text" value={ profile.crp } onChange={ e => setProfile({ ...profile, name: e.target.value }) }/>
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Abordagem</Form.Label>
-                <Form.Control type="text" />
+                <Form.Control type="text" value={ profile.approach } onChange={ e => setProfile({ ...profile, name: e.target.value }) }/>
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>E-mail</Form.Label>
-                <Form.Control type="email" />
+                <Form.Control type="email" value={ profile.email } onChange={ e => setProfile({ ...profile, name: e.target.value }) }/>
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Senha</Form.Label>
-                <Form.Control type="password" />
+                <Form.Label>Telefone</Form.Label>
+                <Form.Control type="text" value={ profile.cellphone } onChange={ e => setProfile({ ...profile, name: e.target.value }) }/>
               </Form.Group>
               <Button variant="outline-success" type="submit">
                 Salvar

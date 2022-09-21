@@ -2,10 +2,10 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { ProfessionalProfileDto } from "./dtos/Professional.dto";
 import { fetchProfessionalProfile } from "./service";
 
-export function useFetchProfessionalProfile(id: number): UseQueryResult<IAuthResponseDto> {
+export function useFetchProfessionalProfile(): UseQueryResult<ProfessionalProfileDto> {
   const queryKey = ["professionalProfile"];
 
-  return useQuery(queryKey, () => fetchProfessionalProfile(id), {
+  return useQuery(queryKey, () => fetchProfessionalProfile(), {
     keepPreviousData: true,
   });
 }
