@@ -78,3 +78,9 @@ export async function fetchRefreshToken(
 
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const getRefreshToken = () => localStorage.getItem(REFRESH_TOKEN);
+export const removeToken = () => localStorage.removeItem(TOKEN_KEY);
+export const removeRefresh = () => localStorage.removeItem(TOKEN_KEY);
+export const removeTokens = () => {
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(REFRESH_TOKEN);
+};
