@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusSquare, faEdit, faTrashCan, faEyeLowVision, faMagnifyingGlassArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faPlusSquare, faEdit, faTrashCan, faMagnifyingGlassArrowRight, faBackward, faForward } from '@fortawesome/free-solid-svg-icons'
 import { Modal, Button, Table, Row, Col, Form  } from 'react-bootstrap';
 import PatientCreate from "./create/index";
 
@@ -13,6 +13,9 @@ const Patients: React.FC = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    // const filteredPatient = () : Patient[] => {
+    //     return [];
+    // }
 
     return ( 
         <div className="content-page">
@@ -58,13 +61,28 @@ const Patients: React.FC = () => {
                                         }}
                                         >
                                         <FontAwesomeIcon icon={faPlusSquare} />
-                                        Novo Paciente
+                                        <span style={{marginLeft: 6}}>Novo Paciente</span>
                                     </Button> 
                                 </Col>
                             </Row>
                         </Table>
+                        <div style={{float: "right", marginBottom: 6}} >
+                            <Button variant="outline-primary" style={{marginRight: 12}}>
+                                <FontAwesomeIcon 
+                                    icon={ faBackward } 
+                                /> 
+                                <span style={{marginLeft: 6}}>Anterior</span>
+                            </Button>
+                            <Button variant="outline-secondary">     
+                                <FontAwesomeIcon 
+                                    icon={ faForward } 
+                                    style={{float: "right", marginTop: 3}}
+                                />                           
+                                <span style={{marginRight: 6}}>Seguinte</span>
+                            </Button>
+                        </div>
 
-                        <Table  className='table table-striped table-hover'>
+                        <Table  className='table table-striped table-hover'>                            
                         <thead style={{background: '#6813D5'}}>
                             <tr>
                             <th style={{color: '#fff'}}>Nome</th>
