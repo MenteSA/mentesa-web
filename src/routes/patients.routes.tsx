@@ -1,4 +1,9 @@
-
+import { Navigate, Route, Routes } from 'react-router-dom';
+import Layout from '../components/Layout';
+import Dashboard from '../pages/Dashboard';
+import Professional from '../pages/Professional';
+import Schedule from '../pages/Schedule';
+import Session from '../pages/Session';
 
 const PatientRoutes: React.FC = () => (
   <Layout>

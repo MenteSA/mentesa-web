@@ -23,10 +23,10 @@ const MenuList: React.FC<IProps> = ({ professional }) => {
           <PeopleFill size={22} />
         </NavLinkMenu>
       )}
-      <NavLinkMenu navigateTo="/sessoes" title="Sessão">
+      <NavLinkMenu navigateTo="/sessoes" title="Sessões">
         <CalendarEvent size={22} />
       </NavLinkMenu>
-      <NavLinkMenu navigateTo="/agendamentos" title="Agendamento">
+      <NavLinkMenu navigateTo="/agendamentos" title="Agendamentos">
         <Calendar3 size={22} />
       </NavLinkMenu>
       {professional && (
