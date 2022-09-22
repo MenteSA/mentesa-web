@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAuth } from "../context/auth.context";
 import {
   fetchRefreshToken,
   getRefreshToken,
@@ -26,12 +27,13 @@ api.interceptors.response.use(
   async function (error) {
     const refresh_token = getRefreshToken();
 
-    removeToken();
-
-    if (error.response.status === 401 && refresh_token) {
+    const { verifyAuthentication } = useAuth();
+    if (error.response.status === 401 && refresh_token) {      
       const response = await fetchRefreshToken(JSON.parse(refresh_token));
+      verifyAuthentication();
       return response;
     }
+    
     return Promise.reject(error);
   }
 );
