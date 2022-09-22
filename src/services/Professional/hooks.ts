@@ -10,6 +10,14 @@ export function useFetchProfessionalProfile(): UseQueryResult<ProfessionalProfil
   });
 }
 
+export function useFetchProfessionalProfileUpdate(): UseQueryResult<ProfessionalProfileDto> {
+  const queryKey = ["professionalProfileUpdate"];
+
+  return useQuery(queryKey, () => useFetchProfessionalProfile(), {
+    keepPreviousData: true,
+  });
+}
+
 /*export function useUserLogout(email: string): UseQueryResult<IAuthResponseDto> {
   const queryKey = ["userLogout"];
 
