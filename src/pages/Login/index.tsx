@@ -120,8 +120,7 @@ const Login: React.FC = () => {
         </CreateAccountContainer>
       </FormLayout>
 
-      <Modal show={show} onHide={handleClose} animation={false}>
-        <Modal.Header closeButton></Modal.Header>
+      <Modal show={show} animation={false}>
         <Modal.Body>
           <ProfessionalCreate />
         </Modal.Body>

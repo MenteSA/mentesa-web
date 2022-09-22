@@ -1,3 +1,20 @@
+import api from "../api";
+import PatientProfileDto from './dtos/Professional';
+
+export async function fetchPatientProfile(): PatientProfileDto {
+    const url = 'patients/profile';
+    const { data } = await api.get(url);
+    return data;   
+}
+
+
+export async function fetchPatientProfileUpdate({ name, cpf, gender, email, cellphone, birthDate }: PatientProfileDto): Promise<PatientProfileDto> {
+    const url = `patients/profile`; 
+    const payload = { name, cpf, gender, email, cellphone, birthDate };
+    const { data } = await api.put(url, payload);
+    return data ;
+}
+
 // import api from "../api";
 // import {
 //   IProfessionalId,

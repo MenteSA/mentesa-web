@@ -1,5 +1,10 @@
 import axios from "axios";
-import { fetchRefreshToken, getRefreshToken, getToken } from "./Auth/service";
+import {
+  fetchRefreshToken,
+  getRefreshToken,
+  getToken,
+  removeToken,
+} from "./Auth/service";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
@@ -20,6 +25,8 @@ api.interceptors.response.use(
 
   async function (error) {
     const refresh_token = getRefreshToken();
+
+    removeToken();
 
     if (error.response.status === 401 && refresh_token) {
       const response = await fetchRefreshToken(JSON.parse(refresh_token));

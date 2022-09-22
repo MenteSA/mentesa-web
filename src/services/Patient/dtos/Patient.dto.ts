@@ -1,5 +1,4 @@
-export interface PatientDto {
-  id: string;
+/*export interface PatientDto {
   name: string;
   email: string;
   gender: string;
@@ -7,4 +6,12 @@ export interface PatientDto {
   cpf: string;
   birthday: string;
   professional: string;
+}*/
+export interface PatientProfileDto {
+    nome: string;
+    cpf: string;
+    gender: string;
+    birthDate: string;
+    email: string;
+    cellphone: string;
 }

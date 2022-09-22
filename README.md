@@ -22,6 +22,14 @@ Para executar o projeto com o docker utilizar os comandos
   npm run dev
 ```
 
+<br />
+
+### ✨ Gerenciamento das tarefas
+
+`https://trello.com/b/RWm90Hdh/projeto-gama`
+
+<br />
+
 ### Contribuidores
 
 - [Alessandra Canuto](https://github.com/alecanutto)

@@ -37,6 +37,8 @@ export const UserContainer = styled.div`
 
   h4 {
     margin-right: 20px;
+    font-size: 15px;
+    margin-top: 10px;
   }
 
   .icon {
