@@ -13,9 +13,6 @@ const Patients: React.FC = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    // const filteredPatient = () : Patient[] => {
-    //     return [];
-    // }
 
     return ( 
         <div className="content-page">
