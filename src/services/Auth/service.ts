@@ -69,8 +69,11 @@ export async function fetchRefreshToken(
       };
       return data;
     });
+
   if (result.token !== undefined) {
     localStorage.setItem(TOKEN_KEY, JSON.stringify(result.token));
+  } else {
+    removeTokens();
   }
 
   return result;
