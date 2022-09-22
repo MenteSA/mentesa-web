@@ -18,11 +18,10 @@ export function useFetchProfessionalProfileUpdate(): UseQueryResult<Professional
   });
 }
 
-/*export function useUserLogout(email: string): UseQueryResult<IAuthResponseDto> {
+export function useUserLogout(email: string): UseQueryResult<AuthResponseDto> {
   const queryKey = ["userLogout"];
 
   return useQuery(queryKey, () => fetchUserLogout(email), {
     keepPreviousData: true,
   });
 }
-*/
