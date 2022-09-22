@@ -1,19 +1,32 @@
+import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlusSquare,
   faEdit,
   faTrashCan,
-  faEyeLowVision,
   faMagnifyingGlassArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button, Table, Row, Col, Form } from 'react-bootstrap';
-import PatientCreate from './create/index';
+import { useScheduleList } from '../../services/Schedulling/hooks';
+import ScheduleCreate from './create/index';
+import { IScheduleDto } from '../../services/Schedulling/dtos/auth.dto';
 
-const Patient: React.FC = () => {
+const Schedule: React.FC = () => {
   const [show, setShow] = useState(false);
+
+  const [schedules, setSchedules] = useState<IScheduleDto[]>();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const { data } = useScheduleList();
+
+  useEffect(() => {
+    if (Array.isArray(data)) {
+      setSchedules(data);
+      console.log(data);
+    }
+  }, [data]);
 
   return (
     <div className="content-page">
@@ -24,7 +37,7 @@ const Patient: React.FC = () => {
               <Row>
                 <Col sm={12}>
                   <h4 style={{ color: '#666666', fontSize: 32 }}>
-                    Meus Pacientes
+                    Meus Agendamentos
                   </h4>
                 </Col>
                 <Col sm={6}>
@@ -61,7 +74,7 @@ const Patient: React.FC = () => {
                     }}
                   >
                     <FontAwesomeIcon icon={faPlusSquare} />
-                    Novo Paciente
+                    Novo
                   </Button>
                 </Col>
               </Row>
@@ -70,53 +83,50 @@ const Patient: React.FC = () => {
             <Table className="table table-striped table-hover">
               <thead style={{ background: '#6813D5' }}>
                 <tr>
-                  <th style={{ color: '#fff' }}>Nome</th>
-                  <th style={{ color: '#fff' }}>Endereço</th>
-                  <th style={{ color: '#fff' }}>E-mail</th>
-                  <th style={{ color: '#fff' }}>Gênero</th>
-                  <th style={{ color: '#fff' }}>Estado</th>
-                  <th style={{ color: '#fff' }}>Cidade</th>
+                  <th style={{ color: '#fff' }}>Data</th>
+                  <th style={{ color: '#fff' }}>Status</th>
+                  <th style={{ color: '#fff' }}>Local</th>
+                  <th style={{ color: '#fff' }}>Tipo</th>
                   <th style={{ color: '#fff' }}>Ações</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <Button
-                      onClick={handleShow}
-                      style={{ marginLeft: 12, backgroundColor: '#6813D5' }}
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button variant="danger" style={{ marginLeft: 12 }}>
-                      <FontAwesomeIcon icon={faTrashCan} />
-                    </Button>
-                  </td>
-                </tr>
+                {schedules?.map((row, index) => {
+                  <tr key={index}>
+                    <td>
+                      <strong>{row.sessionDate}</strong>
+                    </td>
+                    <td>
+                      <strong>{row.status}</strong>
+                    </td>
+                    <td>
+                      <strong>{row.scheduleType}</strong>
+                    </td>
+                    <td>
+                      <strong>{row.type}</strong>
+                    </td>
+                    <td>
+                      <Button
+                        onClick={handleShow}
+                        style={{ marginLeft: 12, backgroundColor: '#6813D5' }}
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </Button>
+                      <Button variant="danger" style={{ marginLeft: 12 }}>
+                        <FontAwesomeIcon icon={faTrashCan} />
+                      </Button>
+                    </td>
+                  </tr>;
+                })}
               </tbody>
             </Table>
 
             <Modal show={show}>
+              <Modal.Header>
+                <Modal.Title>Cadastrar Sessão</Modal.Title>
+              </Modal.Header>
               <Modal.Body>
-                <PatientCreate />
+                <ScheduleCreate />
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="danger" onClick={handleClose}>
@@ -134,4 +144,4 @@ const Patient: React.FC = () => {
   );
 };
 
-export default Patient;
+export default Schedule;
