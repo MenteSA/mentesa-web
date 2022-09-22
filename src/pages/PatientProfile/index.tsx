@@ -2,35 +2,44 @@ import react, { useEffect, useState } from 'react';
 import { Button, Row, Col, Form } from "react-bootstrap";
 import { useMutation } from '@tanstack/react-query';
 import { toast } from "react-toastify";
-import { useFetchProfessionalProfile } from '../../services/Professional/hooks';
-import { fetchProfessionalProfileUpdate } from '../../services/Professional/service';
-import { ProfessionalProfileDto } from '../../services/Professional/dtos/Professional';
+import { useFetchPatientProfile } from '../../services/Patient/hooks';
+import { fetchPatientProfileUpdate } from '../../services/Patient/service';
+import { PatientProfileDto } from '../../services/Patient/dtos/Patient';
 import { useUser } from "../../context/user.context";
+import formatDate from '../../utils/formatDate';
 
-const Professional: React.FC = () => {
+const PatientProfile: React.FC = () => {
     const { isAdmin, authenticatedUser } = useUser();
-    const [ profile, setProfile ] = useState<ProfessionalProfileDto>({})
-    const { data } = useFetchProfessionalProfile();
+    const [ profile, setProfile ] = useState<PatientProfileDto>({})
+    const { data } = useFetchPatientProfile();
     useEffect( () => {
         if (data) {
+            const birthDate = data.data.patient.birthDate.replace(/T.*/,'').split('-').reverse().join('/');
             setProfile({
-                name: data.data.professional.name,
-                crp: data.data.professional.crp,
-                approach: data.data.professional.approach,
-                email: data.data.professional.email,
-                cellphone: data.data.professional.cellphone,
+                name: data.data.patient.name,
+                cpf: data.data.patient.cpf,
+                gender: data.data.patient.gender,
+                email: data.data.patient.email,
+                cellphone: data.data.patient.cellphone,
+                birthDate: birthDate,
             });
         } 
     },[data]);
 
     const { mutate } = useMutation( 
-        () => fetchProfessionalProfileUpdate({
+        () => {
+            const [day, month, year] = profile.birthDate.split('/');
+            const birthDate = new Date(+year, +month-1, +day);
+            console.log(birthDate);
+            fetchPatientProfileUpdate({
                 name: profile.name,
-                crp: profile.crp,
-                approach: profile.approach,
+                cpf: profile.cpf,
+                birthDate: birthDate,
                 email: profile.email,
                 cellphone: profile.cellphone,
-            }), {
+                gender: profile.gender
+            })
+            }, {
             onSuccess: (res) => {
                 toast.success('Perfil atualizado com sucesso!');
             },
@@ -48,7 +57,6 @@ const Professional: React.FC = () => {
         }
     };
 
-
   return ( 
     <div className="content-page">
       <div className="content">
@@ -63,12 +71,20 @@ const Professional: React.FC = () => {
                 <Form.Control type="text" value={ profile.name || "" } onChange={ e => setProfile({ ...profile, name: e.target.value }) } />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>CRP</Form.Label>
-                <Form.Control type="text" value={ profile.crp || ""} onChange={ e => setProfile({ ...profile, crp: e.target.value }) }/>
+                <Form.Label>CPF</Form.Label>
+                <Form.Control type="text" value={ profile.cpf || ""} onChange={ e => setProfile({ ...profile, cpf: e.target.value }) }/>
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Abordagem</Form.Label>
-                <Form.Control type="text" value={ profile.approach || ""} onChange={ e => setProfile({ ...profile, approach: e.target.value }) }/>
+                <Form.Label>Data de nascimento</Form.Label>
+                <Form.Control type="text" value={ profile.birthDate || ""} onChange={ e => setProfile({ ...profile, birthDate: e.target.value }) }/>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Gênero</Form.Label>
+                <Form.Select value={ profile.gender || ""} onChange={ e => setProfile({ ...profile, gender: e.target.value }) }>
+                    <option value="FEMININE">Feminino</option>
+                    <option value="MASCULINE">Masculino</option>
+                    <option value="OTHERS">Outros</option>
+                </Form.Select>
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>E-mail</Form.Label>
@@ -89,4 +105,4 @@ const Professional: React.FC = () => {
   );
 };
 
-export default Professional;
+export default PatientProfile;

@@ -8,7 +8,7 @@ export async function fetchProfessionalProfile(): ProfessionalProfileDto {
 }
 
 
-export async function fetchProfessionalProfileUpdate(id: number, { name, crp, approach, email, cellphone }: ProfessionalProfileDto): Promise<ProfessionalProfileUpdateDto> {
+export async function fetchProfessionalProfileUpdate({ name, crp, approach, email, cellphone }: ProfessionalProfileDto): Promise<ProfessionalProfileUpdateDto> {
     const url = `professionals/profile`; 
     const payload = { name, crp, approach, email, cellphone };
     const { data } = await api.put(url, payload);
