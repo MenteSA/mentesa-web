@@ -1,8 +1,8 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { PatientProfileDto } from "./dtos/Patient.dto";
-import { fetchPatientProfile } from "./service";
+import { IPatientProfileDto, IResponsePatientListDto } from "./dtos/Patient.dto";
+import { fetchPatientProfile, fetchPatientList } from "./service";
 
-export function useFetchPatientProfile(): UseQueryResult<PatientProfileDto> {
+export function useFetchPatientProfile(): UseQueryResult<IPatientProfileDto> {
   const queryKey = ["patientProfile"];
 
   return useQuery(queryKey, () => fetchPatientProfile(), {
@@ -10,7 +10,13 @@ export function useFetchPatientProfile(): UseQueryResult<PatientProfileDto> {
   });
 }
 
+export function useFetchPatientList(): UseQueryResult<IResponsePatientListDto> {
+  const queryKey = ["patientList"];
 
+  return useQuery(queryKey, () => fetchPatientList(), {
+    keepPreviousData: true,
+  });
+}
 
 // import { useQuery, UseQueryResult } from "@tanstack/react-query";
 // import { PatientDto } from "./dtos/Patient.dto";

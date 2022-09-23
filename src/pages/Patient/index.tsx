@@ -1,21 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare, faEdit, faTrashCan, faMagnifyingGlassArrowRight, faBackward, faForward } from '@fortawesome/free-solid-svg-icons'
 import { Modal, Button, Table, Row, Col, Form  } from 'react-bootstrap';
 import PatientCreate from "./create/index";
+import { useFetchPatientList, fetchPatientList } from '../../services/Patient/hooks';
+import { PatientProfileDto } from '../../services/Patient/dtos/Patient.dto';
+//import { fetchProfessionalProfileUpdate } from '../../services/Patient/service';
 
 
 
 const Patients: React.FC = () => {
+    const navigate = useNavigate();
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    // const filteredPatient = () : Patient[] => {
-    //     return [];
-    // }
+    const { data, isSuccess } = useFetchPatientList();
+    useEffect( () => {
+        if (data) {
+          console.log('patientList', data);
+          /*const tableBody = document.getElementById('listTableBody')
+
+          tableBody.detach();
+          //const table: HTMLTableElement = <HTMLTableElement> document.getElementById("listTableBody");
+          //  console.log(table);
+          data.data.forEach( (item, index) => {
+            const row = tableBody.insertRow(index);
+             
+            let th = document.createElement("th");
+            let text = document.createTextNode(item.name);
+            th.appendChild(text);
+            row.appendChild(th);
+          });*/
+        }
+    },[data]);
 
     return ( 
         <div className="content-page">
@@ -86,22 +105,17 @@ const Patients: React.FC = () => {
                         <thead style={{background: '#6813D5'}}>
                             <tr>
                             <th style={{color: '#fff'}}>Nome</th>
-                            <th style={{color: '#fff'}}>Endereço</th>
                             <th style={{color: '#fff'}}>E-mail</th>
                             <th style={{color: '#fff'}}>Gênero</th>
-                            <th style={{color: '#fff'}}>Estado</th>
-                            <th style={{color: '#fff'}}>Cidade</th>
                             <th style={{color: '#fff'}}>Ações</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong></strong></td>
-                                <td><strong></strong></td>
-                                <td><strong></strong></td>
-                                <td><strong></strong></td>
-                                <td><strong></strong></td>
-                                <td><strong></strong></td>
+                        <tbody id="listTableBody">
+                            { isSuccess && data.data.map((item, index) => ( 
+                                <tr key={index}>
+                                <td>{item.name}</td>
+                                <td>{item.email}</td>
+                                <td>{item.gender}</td>
                                 <td>
                                     <Button 
                                         onClick={handleShow}
@@ -120,24 +134,13 @@ const Patients: React.FC = () => {
                                         />
                                     </Button>
                                 </td>
-                            </tr>
+                                </tr>
+                            )
+                            )}
                             
                         </tbody>
                         </Table >          
-                            
-                        <Modal show={show}>
-                            <Modal.Body>
-                                <PatientCreate />
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="danger" onClick={handleClose}>
-                                Cancelar
-                                </Button>
-                                <Button variant="success" onClick={handleClose}>
-                                Salvar
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
+                            <PatientCreate close={handleClose} isOpen={show} />
                     </div>
                 </div>
             </div>
@@ -150,3 +153,35 @@ const Patients: React.FC = () => {
 };
 
 export default Patients;
+                                /*<td>
+                                    <Button 
+                                        onClick={handleShow}
+                                        style={{marginLeft: 12, backgroundColor: '#6813D5' }}
+                                    >
+                                        <FontAwesomeIcon 
+                                            icon={ faEdit } 
+                                        />
+                                    </Button>
+                                    <Button  
+                                        variant="danger"
+                                        style={{marginLeft: 12}}
+                                    >
+                                        <FontAwesomeIcon 
+                                            icon={ faTrashCan } 
+                                        />
+                                    </Button>
+                                </td>*/
+/*
+                        <Modal show={show}>
+                            <Modal.Body>
+                                <PatientCreate />
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="danger" onClick={handleClose}>
+                                Cancelar
+                                </Button>
+                                <Button variant="success" onClick={handleClose}>
+                                Salvar
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>*/

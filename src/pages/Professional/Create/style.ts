@@ -13,7 +13,7 @@ export const HelperContainer = styled.div`
       margin-right: 5px;
     }
   }
-`;
+`
 
 export const Input = styled.input`
   margin-top: 10px;
@@ -21,4 +21,5 @@ export const Input = styled.input`
   border-radius: 4px;
   border: 1px solid;
   padding: 10px;
-`;
+`
+

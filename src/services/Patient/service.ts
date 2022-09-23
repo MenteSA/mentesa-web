@@ -1,5 +1,5 @@
 import api from "../api";
-import PatientProfileDto from './dtos/Professional';
+import { PatientProfileDto, IResponsePatientListDto } from './dtos/Patient.dto';
 
 export async function fetchPatientProfile(): PatientProfileDto {
     const url = 'patients/profile';
@@ -12,6 +12,31 @@ export async function fetchPatientProfileUpdate({ name, cpf, gender, email, cell
     const url = `patients/profile`; 
     const payload = { name, cpf, gender, email, cellphone, birthDate };
     const { data } = await api.put(url, payload);
+    return data ;
+}
+
+export async function fetchPatientList(): Promise<IResponsePatientListDto> {
+  const url = `patients`;
+  return await api
+    .get(url)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      const data = {
+        session: undefined,
+        message: error.response.data.message,
+      };
+      return data;
+    });
+  //const { data } = await api.get(url);
+  //return data;
+}
+
+export async function fetchPatientCreate({ name, cpf, gender, email, cellphone, birthDate, active }: PatientCreateDto): Promise<PatientProfileDto> {
+    const url = `patients`; 
+    const payload = { name, cpf, gender, email, cellphone, birthDate, active };
+    const { data } = await api.post(url, payload);
     return data ;
 }
 

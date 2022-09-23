@@ -1,5 +1,5 @@
 import api from "../api";
-import ProfessionalProfileDto from './dtos/Professional';
+import ProfessionalProfileDto from './dtos/Professional.dto';
 
 export async function fetchProfessionalProfile(): ProfessionalProfileDto {
     const url = 'professionals/profile';
