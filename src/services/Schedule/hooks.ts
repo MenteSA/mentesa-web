@@ -1,8 +1,8 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { IScheduleDto } from './dtos/auth.dto';
+import { IResponseScheduleDto } from './dtos/schedule.dto';
 import { fetchAllSchedules } from './service';
 
-export function useScheduleList(): UseQueryResult<IScheduleDto[]> {
+export function useScheduleList(): UseQueryResult<IResponseScheduleDto> {
   const queryKey = ['userRegister'];
 
   return useQuery(queryKey, () => fetchAllSchedules(), {

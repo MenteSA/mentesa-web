@@ -5,3 +5,7 @@ export interface IScheduleDto {
   type: 'ONLINE' | 'PRESENTIAL';
   scheduleType: 'INDIVIDUAL' | 'COUPLE' | 'IN_GROUP';
 }
+
+export interface IResponseScheduleDto {
+  data: { schedules: IScheduleDto[] };
+}

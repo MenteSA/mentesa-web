@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlusSquare,
@@ -7,9 +7,9 @@ import {
   faMagnifyingGlassArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button, Table, Row, Col, Form } from 'react-bootstrap';
-import { useScheduleList } from '../../services/Schedulling/hooks';
+import { useScheduleList } from '../../services/Schedule/hooks';
+import { IScheduleDto } from '../../services/Schedule/dtos/schedule.dto';
 import ScheduleCreate from './create/index';
-import { IScheduleDto } from '../../services/Schedulling/dtos/auth.dto';
 
 const Schedule: React.FC = () => {
   const [show, setShow] = useState(false);
@@ -19,13 +19,10 @@ const Schedule: React.FC = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { data } = useScheduleList();
+  const { data, isSuccess } = useScheduleList();
 
   useEffect(() => {
-    if (Array.isArray(data)) {
-      setSchedules(data);
-      console.log(data);
-    }
+    console.log(data?.data?.schedules);
   }, [data]);
 
   return (
@@ -91,33 +88,11 @@ const Schedule: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {schedules?.map((row, index) => {
-                  <tr key={index}>
-                    <td>
-                      <strong>{row.sessionDate}</strong>
-                    </td>
-                    <td>
-                      <strong>{row.status}</strong>
-                    </td>
-                    <td>
-                      <strong>{row.scheduleType}</strong>
-                    </td>
-                    <td>
-                      <strong>{row.type}</strong>
-                    </td>
-                    <td>
-                      <Button
-                        onClick={handleShow}
-                        style={{ marginLeft: 12, backgroundColor: '#6813D5' }}
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </Button>
-                      <Button variant="danger" style={{ marginLeft: 12 }}>
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </Button>
-                    </td>
-                  </tr>;
-                })}
+                {!isSuccess ? (
+                  <div>Falha ao carregar agendamentos</div>
+                ) : (
+                  <div>sucess</div>
+                )}
               </tbody>
             </Table>
 
