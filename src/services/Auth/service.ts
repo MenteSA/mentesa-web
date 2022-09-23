@@ -7,6 +7,7 @@ import {
 
 export const TOKEN_KEY = "@menteSa-Token";
 export const REFRESH_TOKEN = "@menteSa-RefreshTokem";
+export const USER_JSON = "@menteSa-UserJson";
 export async function fetchUserLogin({
   email,
   password,
@@ -43,6 +44,7 @@ export async function fetchUserLogout(userEmail: string) {
   if (status === 200) {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN);
+    localStorage.removeItem(USER_JSON);
   }
 
   return status;
@@ -53,7 +55,7 @@ export async function fetchRefreshToken(
 ): Promise<IRefreshTokenDto> {
   const url = "auth/refresh-token";
 
-  const payload = { refreshToken };
+  const payload = { refresh_token: refreshToken };
 
   const result = await api
     .post(url, payload)
@@ -61,7 +63,7 @@ export async function fetchRefreshToken(
     .catch((error) => {
       removeTokens();
       const data = {
-        user: undefined,
+        token: undefined,
         message: error.response.data.message,
       };
       return data;

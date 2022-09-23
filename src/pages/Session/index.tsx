@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlusSquare,
@@ -11,22 +11,15 @@ import {
 import { Modal, Button, Table, Row, Col, Form } from "react-bootstrap";
 import SessionCreate from "./create/index";
 import { useSessionList } from "../../services/Session/hooks";
-import { ISessionDto } from "../../services/Session/dtos/Session.dto";
+import { customFormatDate } from "../../utils/formatDate";
 
 const Session: React.FC = () => {
   const [show, setShow] = useState(false);
-  const [sessionList, setSessionList] = useState<ISessionDto[]>([]);
 
-  const { data } = useSessionList();
+  const { data, isSuccess } = useSessionList();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  useLayoutEffect(() => {
-    data?.data.session!.map((session: ISessionDto) => {
-      console.log(session);
-    });
-  }, []);
 
   return (
     <div className="content-page">
@@ -97,7 +90,7 @@ const Session: React.FC = () => {
             <Table className="table table-striped table-hover">
               <thead style={{ background: "#6813D5" }}>
                 <tr>
-                  <th style={{ color: "#fff" }}>Paciente</th>
+                  {/* <th style={{ color: "#fff" }}>Paciente</th> */}
                   <th style={{ color: "#fff" }}>Agendamento</th>
                   <th style={{ color: "#fff" }}>Tema Abordado</th>
                   <th style={{ color: "#fff" }}>Duração</th>
@@ -106,34 +99,44 @@ const Session: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <Button
-                      onClick={handleShow}
-                      style={{ marginLeft: 12, backgroundColor: "#6813D5" }}
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button variant="danger" style={{ marginLeft: 12 }}>
-                      <FontAwesomeIcon icon={faTrashCan} />
-                    </Button>
-                  </td>
-                </tr>
+                {isSuccess &&
+                  data?.data.session?.map((row, index) => (
+                    <tr key={index}>
+                      {/* <td>
+                        <strong>
+                          {row.Schedule.PatientsSchedule.at(0)?.cpf}
+                        </strong>
+                      </td> */}
+                      <td>
+                        <strong>
+                          {customFormatDate(row.Schedule.sessionDate)}
+                        </strong>
+                      </td>
+                      <td>
+                        <strong>{row.subject}</strong>
+                      </td>
+                      <td>
+                        <strong>{row.duration} min</strong>
+                      </td>
+                      <td>
+                        <strong>{row.Schedule.scheduleType}</strong>
+                      </td>
+                      <td>
+                        <Button
+                          onClick={handleShow}
+                          style={{
+                            marginLeft: 12,
+                            backgroundColor: "#6813D5",
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faEdit} />
+                        </Button>
+                        <Button variant="danger" style={{ marginLeft: 12 }}>
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </Table>
 
