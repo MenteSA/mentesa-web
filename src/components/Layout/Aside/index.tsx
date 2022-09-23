@@ -28,7 +28,7 @@ const Aside: React.FC = () => {
         <p>Bem vindo(a),</p>
         <UserContainer>
           <PerfilButton>
-            <NavLink to="/my-profile" className="perfilIcon">
+            <NavLink to="/perfil" className="perfilIcon">
               <FilePerson size={22} />
             </NavLink>
           </PerfilButton>
