@@ -1,3 +1,5 @@
+import { IPatientDto } from '../../Patient/dtos/Patient.dto';
+
 export interface IScheduleDto {
   id?: number;
   sessionDate: string;
@@ -17,14 +19,4 @@ export interface ISchedulePatientsDto {
   scheduleId: number;
   patientId: number;
   patient: IPatientDto;
-}
-
-export interface IPatientDto {
-  id?: number;
-  name: string;
-  cpf: string;
-  gender: string;
-  birthDate: string;
-  email: string;
-  cellphone: string;
 }

@@ -1,21 +1,27 @@
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Multiselect from 'multiselect-react-dropdown';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useFetchPatients } from '../../../services/Patient/hooks';
 
 interface IScheduleProps {
   id?: number;
 }
 
+interface InputValues {}
+
 const ScheduleCreate: React.FC<IScheduleProps> = ({ id }) => {
   const [limitPatient, setLimitPatient] = useState<number>(1);
 
-  const { data } = useFetchPatients();
+  const { data: patients } = useFetchPatients();
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<InputValues>();
 
   const handleScheduleType = ({ target }: any) => {
     if (target.value === 'INDIVIDUAL') {
@@ -75,11 +81,9 @@ const ScheduleCreate: React.FC<IScheduleProps> = ({ id }) => {
             onRemove={function noRefCheck() {}}
             onSearch={function noRefCheck() {}}
             onSelect={function noRefCheck() {}}
-            // options={data?.data.map((id: number, name: string) => {
-            //   const patient = { id, name };
-            //   console.log(name);
-            //   return patient;
-            // })}
+            options={patients?.data.map(({ id, name }) => {
+              return { id, name };
+            })}
             showCheckbox
             selectionLimit={limitPatient}
           />

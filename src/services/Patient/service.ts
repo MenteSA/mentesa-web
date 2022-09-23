@@ -25,17 +25,7 @@ export async function fetchAllPatient(): Promise<IResponsePatientDto> {
   const url = 'patients';
   return await api
     .get(url)
-    .then(resp => {
-      const patients: IResponsePatientDto = resp.data;
-      const newP = patients.data.map(patient => {
-        return {
-          id: patient.id,
-          name: patient.name,
-        };
-      });
-      console.log(newP);
-      return resp.data;
-    })
+    .then(resp => resp.data)
     .catch(error => {
       const data = {
         data: undefined,
