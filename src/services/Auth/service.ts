@@ -16,9 +16,7 @@ export async function fetchUserLogin({
 
   const result = await api
     .post(url, payload)
-    .then((response) => {
-      return response.data;
-    })
+    .then((response) => response.data)
     .catch((error) => {
       const data = {
         user: undefined,
@@ -59,10 +57,9 @@ export async function fetchRefreshToken(
 
   const result = await api
     .post(url, payload)
-    .then((response) => {
-      return response.data;
-    })
+    .then((response) => response.data)
     .catch((error) => {
+      removeTokens();
       const data = {
         user: undefined,
         message: error.response.data.message,

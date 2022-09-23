@@ -1,20 +1,19 @@
-import { Fragment, useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Fragment, useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlusSquare,
   faEdit,
   faTrashCan,
   faMagnifyingGlassArrowRight,
-} from '@fortawesome/free-solid-svg-icons';
-import { Modal, Button, Table, Row, Col, Form } from 'react-bootstrap';
-import { useScheduleList } from '../../services/Schedule/hooks';
-import { IScheduleDto } from '../../services/Schedule/dtos/schedule.dto';
-import ScheduleCreate from './create/index';
+} from "@fortawesome/free-solid-svg-icons";
+import { Modal, Button, Table, Row, Col, Form } from "react-bootstrap";
+import { useScheduleList } from "../../services/Schedule/hooks";
+import ScheduleCreate from "./create/index";
 
 const Schedule: React.FC = () => {
   const [show, setShow] = useState(false);
 
-  const [schedules, setSchedules] = useState<IScheduleDto[]>();
+  // const [schedules, setSchedules] = useState<IScheduleDto[]>();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -22,7 +21,9 @@ const Schedule: React.FC = () => {
   const { data, isSuccess } = useScheduleList();
 
   useEffect(() => {
-    console.log(data?.data?.schedules);
+    data?.data.map((a) => {
+      console.log(a);
+    });
   }, [data]);
 
   return (
@@ -33,7 +34,7 @@ const Schedule: React.FC = () => {
             <Table className="table-title">
               <Row>
                 <Col sm={12}>
-                  <h4 style={{ color: '#666666', fontSize: 32 }}>
+                  <h4 style={{ color: "#666666", fontSize: 32 }}>
                     Meus Agendamentos
                   </h4>
                 </Col>
@@ -55,19 +56,19 @@ const Schedule: React.FC = () => {
                     className="btn btn-success float-right"
                     onClick={handleShow}
                     style={{
-                      display: 'block',
-                      margin: 'auto',
+                      display: "block",
+                      margin: "auto",
                       marginRight: 3,
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      padding: '12px 32px',
-                      gap: '16px',
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "12px 32px",
+                      gap: "16px",
                       width: 200,
                       height: 43,
-                      background: '#6813D5',
-                      boxShadow: '5px 5px 5px rgba(0, 0, 0, 0.1)',
-                      borderRadius: '5px',
+                      background: "#6813D5",
+                      boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)",
+                      borderRadius: "5px",
                     }}
                   >
                     <FontAwesomeIcon icon={faPlusSquare} />
@@ -78,21 +79,47 @@ const Schedule: React.FC = () => {
             </Table>
 
             <Table className="table table-striped table-hover">
-              <thead style={{ background: '#6813D5' }}>
+              <thead style={{ background: "#6813D5" }}>
                 <tr>
-                  <th style={{ color: '#fff' }}>Data</th>
-                  <th style={{ color: '#fff' }}>Status</th>
-                  <th style={{ color: '#fff' }}>Local</th>
-                  <th style={{ color: '#fff' }}>Tipo</th>
-                  <th style={{ color: '#fff' }}>Ações</th>
+                  <th style={{ color: "#fff" }}>Data</th>
+                  <th style={{ color: "#fff" }}>Status</th>
+                  <th style={{ color: "#fff" }}>Local</th>
+                  <th style={{ color: "#fff" }}>Tipo</th>
+                  <th style={{ color: "#fff" }}>Ações</th>
                 </tr>
               </thead>
               <tbody>
-                {!isSuccess ? (
-                  <div>Falha ao carregar agendamentos</div>
-                ) : (
-                  <div>sucess</div>
-                )}
+                {isSuccess &&
+                  data?.data.map((row, index) => (
+                    <tr key={index}>
+                      <td>
+                        <strong>{row.sessionDate}</strong>
+                      </td>
+                      <td>
+                        <strong>{row.status}</strong>
+                      </td>
+                      <td>
+                        <strong>{row.scheduleType}</strong>
+                      </td>
+                      <td>
+                        <strong>{row.type}</strong>
+                      </td>
+                      <td>
+                        <Button
+                          onClick={handleShow}
+                          style={{
+                            marginLeft: 12,
+                            backgroundColor: "#6813D5",
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faEdit} />
+                        </Button>
+                        <Button variant="danger" style={{ marginLeft: 12 }}>
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </Table>
 
