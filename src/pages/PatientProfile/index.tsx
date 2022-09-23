@@ -30,8 +30,7 @@ const PatientProfile: React.FC = () => {
         () => {
             const [day, month, year] = profile.birthDate.split('/');
             const birthDate = new Date(+year, +month-1, +day);
-            console.log(birthDate);
-            fetchPatientProfileUpdate({
+            return fetchPatientProfileUpdate({
                 name: profile.name,
                 cpf: profile.cpf,
                 birthDate: birthDate,

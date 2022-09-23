@@ -32,7 +32,7 @@ const Aside: React.FC = () => {
               <FilePerson size={22} />
             </NavLink>
           </PerfilButton>
-          <h4>{authenticatedUser.name}</h4>
+          <h4>{ authenticatedUser ? authenticatedUser.name : '' }</h4>
           <button onClick={() => handleLogoutClick()}>
             <BoxArrowRight size={22} className="icon" />
           </button>

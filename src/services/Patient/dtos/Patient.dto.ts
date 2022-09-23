@@ -1,3 +1,12 @@
+export interface IPatientProfileDto {
+    nome: string;
+    cpf: string;
+    gender: string;
+    birthDate: string;
+    email: string;
+    cellphone: string;
+}
+
 export interface PatientProfileDto {
   nome: string;
   cpf: string;
@@ -7,21 +16,25 @@ export interface PatientProfileDto {
   cellphone: string;
 }
 
-export interface IResponsePatientDto {
-  data: IPatientDto[];
-  message: string;
+export interface IPatientCreateDto extends PatientProfileDto {
+    active: boolean;
 }
 
 export interface IPatientDto {
-  id?: number;
-  name: string;
-  cpf: string;
-  gender: string;
-  birthDate: string;
-  email: string;
-  cellphone: string;
-  active: boolean;
-  professionalId: number;
-  createdAt: string;
-  updatedAt: string;
+    id: number;
+    nome: string;
+    cpf: string;
+    gender: string;
+    birthDate: string;
+    email: string;
+    cellphone: string;
+    createdAt: string;
+    updateddAt: string;
+}
+
+export interface IResponsePatientListDto {
+  data: {
+    patient: IPatientDto[];
+  };
+  message: string;
 }

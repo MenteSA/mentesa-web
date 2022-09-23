@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
 import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from "react-router-dom";
 import { useMutation } from '@tanstack/react-query';
@@ -7,16 +7,18 @@ import { Input } from "./style";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { fetchPatientCreate } from '../../../services/Patient/service';
+import { useFetchPatientById } from '../../../services/Patient/hooks';
 import { toast } from "react-toastify";
-import { PatientProfileDto } from '../../services/Patient/dtos/Patient.dto';
+import { PatientProfileDto, IPatientDto } from '../../services/Patient/dtos/Patient.dto';
 
 type CloseModal = () => void;
-type updateList = (patient: PatientProfileDto) => void;
 
 interface IModalProps {
     close: CloseModal;
     isOpen: boolean;
+    patientId: number;
 }
+
 const selectStyle = { 
     marginTop: "10px",
     width: "100%",
@@ -25,7 +27,9 @@ const selectStyle = {
     padding: "10px",
 }
 
-const PatientCreate: React.FC<IModalProps> = ({close, isOpen }: IModalProps) => {
+const PatientUpdate: React.FC<IModalProps> = ({close, isOpen, patientId }: IModalProps) => {
+    
+  const data = useFetchPatientById(patientId);
 
   const [nome, setNome] = useState("");
   const [dateNasc, setDateNasc] = useState("");
@@ -37,7 +41,17 @@ const PatientCreate: React.FC<IModalProps> = ({close, isOpen }: IModalProps) => 
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
-
+    useEffect( () => {
+        if (data) {
+            //const birthDate = data.birthDate.replace(/T.*/,'').split('-').reverse().join('/');
+            /*setNome(data.name);
+            setCpf(data.cpf);
+            setGenero(data.gender);
+            setEmail(data.email)
+            setTelefone(data.cellphone);
+            setDateNasc(birthDate);*/
+        } 
+    },[data]);
   const { mutate } = useMutation( 
         () => {
             const [day, month, year] = dateNasc.split('/');
@@ -53,7 +67,7 @@ const PatientCreate: React.FC<IModalProps> = ({close, isOpen }: IModalProps) => 
             })
             }, {
             onSuccess: (res) => {
-                toast.success('Paciente cadastrado com sucesso!');
+                toast.success('Paciente atualizado com sucesso!');
                 queryClient.invalidateQueries(['patientList']);
                 close();
             },
@@ -89,12 +103,13 @@ const PatientCreate: React.FC<IModalProps> = ({close, isOpen }: IModalProps) => 
         <FormLayoutPatient 
           handleSubmit={handleSubmit}
           title="Mente Sã"
-          subtitle="Cadastro de paciente"
+          subtitle="Atualização de paciente"
           information=""
         >
           <Input
             type="text"
             placeholder="Nome"
+            value={nome}
             onChange={(e) => {
               setNome(e.target.value);
             }}
@@ -153,4 +168,4 @@ const PatientCreate: React.FC<IModalProps> = ({close, isOpen }: IModalProps) => 
   );
 };
 
-export default PatientCreate;
+export default PatientUpdate;

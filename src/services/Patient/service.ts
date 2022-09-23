@@ -1,5 +1,5 @@
-import api from '../api';
-import { IResponsePatientDto, PatientProfileDto } from './dtos/Patient.dto';
+import api from "../api";
+import { PatientProfileDto, IResponsePatientListDto } from './dtos/Patient.dto';
 
 export async function fetchPatientProfile(): Promise<PatientProfileDto> {
   const url = 'patients/profile';
@@ -21,16 +21,38 @@ export async function fetchPatientProfileUpdate({
   return data;
 }
 
-export async function fetchAllPatient(): Promise<IResponsePatientDto> {
-  const url = 'patients';
+export async function fetchPatientList(): Promise<IResponsePatientListDto> {
+  const url = `patients`;
   return await api
     .get(url)
-    .then(resp => resp.data)
-    .catch(error => {
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
       const data = {
-        data: undefined,
+        session: undefined,
         message: error.response.data.message,
       };
       return data;
     });
 }
+
+export async function fetchPatientCreate({ name, cpf, gender, email, cellphone, birthDate, active }: PatientCreateDto): Promise<PatientProfileDto> {
+    const url = `patients`; 
+    const payload = { name, cpf, gender, email, cellphone, birthDate, active };
+    console.log(payload);
+    const { data } = await api.post(url, payload);
+    return data ;
+}
+export async function fetchPatientDelete(patientId: number): PatientProfileDto {
+    const url = `patients/${patientId}`;
+    const { data } = await api.delete(url);
+    return data;   
+}
+
+export async function fetchPatientById(patientId: number): Promise<PatientProfileDto> {
+    const url = `patients/${patientId}`;
+    const { data } = await api.get(url);
+    return data;   
+}
+

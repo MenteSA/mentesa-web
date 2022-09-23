@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -11,13 +11,38 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button, Table, Row, Col, Form } from 'react-bootstrap';
 import ResourceCreate from './Create/index';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from "react-toastify";
+import { useResourceList } from '../../services/Resource/hooks';
+import { IResourceBodyDto } from '../../services/Patient/dtos/Resource.dto';
+import { fetchDeleteResource } from '../../services/Resource/service';
 
-const Session: React.FC = () => {
+const Resources: React.FC = () => {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [deleteShow, setDeleteShow] = useState({ show: false, id: 0 });
+  const handleDeleteClose = () => setDeleteShow({ show: false, id: 0 });
+  const handleDeleteConfirm = () => { mutate(deleteShow.id), setDeleteShow({ show: false, id: 0 });}
+  const queryClient = useQueryClient();
+  
+  const deleteResource = (resourceId) => setDeleteShow({show: true, id: resourceId });
 
+  const { data, isSuccess } = useResourceList();
+
+  const { mutate } = useMutation( 
+        (resourceId) => {
+               return fetchDeleteResource(resourceId);
+            }, {
+            onSuccess: (res) => {
+                toast.success('Recurso excluído com sucesso!');
+                queryClient.invalidateQueries(['resourceList']);
+            },
+            onError: (msg: any) => {
+                toast.error(`Ocorreu um erro: ${msg.response.data.message}`);
+            }
+        }
+    );
   return (
     <div className="content-page">
       <div className="content">
@@ -85,53 +110,52 @@ const Session: React.FC = () => {
             <Table className="table table-striped table-hover">
               <thead style={{ background: '#6813D5' }}>
                 <tr>
-                  <th style={{ color: '#fff' }}>Cadastrado por</th>
                   <th style={{ color: '#fff' }}>Abordagem</th>
                   <th style={{ color: '#fff' }}>Ferramenta utilizada</th>
                   <th style={{ color: '#fff' }}>Ações</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <strong></strong>
-                  </td>
-                  <td>
-                    <Button
-                      onClick={handleShow}
-                      style={{ marginLeft: 12, backgroundColor: '#6813D5' }}
-                    >
-                      <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button variant="danger" style={{ marginLeft: 12 }}>
-                      <FontAwesomeIcon icon={faTrashCan} />
-                    </Button>
-                  </td>
-                </tr>
+              <tbody>{ isSuccess && data.data.resource.map((item, index) => ( 
+                    <tr key={index}>
+                    <td>{item.title}</td>
+                    <td>{item.category}</td>
+                    <td>
+                        <Button 
+                            style={{marginLeft: 12, backgroundColor: '#6813D5' }}
+                        >
+                            <FontAwesomeIcon 
+                                icon={ faEdit } 
+                            />
+                        </Button>
+                        <Button onClick={() => {deleteResource(item.id)}}  
+                            variant="danger"
+                            style={{marginLeft: 12}}
+                        >
+                            <FontAwesomeIcon 
+                                icon={ faTrashCan } 
+                            />
+                        </Button>
+                    </td>
+                    </tr>
+                  )
+                )}
               </tbody>
             </Table>
 
-            <Modal show={show}>
-              <Modal.Header>
-                <Modal.Title>Cadastrar Recurso</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <ResourceCreate />
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="danger" onClick={handleClose}>
-                  Cancelar
-                </Button>
-                <Button variant="success" onClick={handleClose}>
-                  Salvar
-                </Button>
-              </Modal.Footer>
+            <ResourceCreate close={handleClose} isOpen={show} />
+            <Modal show={deleteShow.show} onHide={handleDeleteClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Confirmação</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Confirma a exclusão do recurso?</Modal.Body>
+                <Modal.Footer>
+                  <Button variant="primary" onClick={handleDeleteClose}>
+                    Cancelar 
+                  </Button>
+                  <Button variant="danger" onClick={handleDeleteConfirm}>
+                    Excluir
+                  </Button>
+                </Modal.Footer>
             </Modal>
           </div>
         </div>
@@ -140,4 +164,4 @@ const Session: React.FC = () => {
   );
 };
 
-export default Session;
+export default Resources;
