@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare, faEdit, faTrashCan, faMagnifyingGlassArrowRight, faBackward, faForward } from '@fortawesome/free-solid-svg-icons'
 import { Modal, Button, Table, Row, Col, Form  } from 'react-bootstrap';
 import PatientCreate from "./create/index";
+import PatientUpdate from "./update/index";
 import { toast } from "react-toastify";
 import { useFetchPatientList, fetchPatientList } from '../../services/Patient/hooks';
 import { PatientProfileDto } from '../../services/Patient/dtos/Patient.dto';
@@ -19,20 +20,21 @@ const gender = {
 const Patients: React.FC = () => {
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
-    const [deleteShow, setDeleteShow] = useState({ show: false, id: 0 });
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [deleteShow, setDeleteShow] = useState({ show: false, id: 0 });
     const handleDeleteClose = () => setDeleteShow({ show: false, id: 0 });
     const handleDeleteConfirm = () => { mutate(deleteShow.id), setDeleteShow({ show: false, id: 0 });}
+    const [updateShow, setUpdateShow] = useState({ show: false, id: 0 });
+    const handleUpdateClose = () => setUpdateShow({ show: false, id: 0 });
+    const handleUpdateConfirm = () => { mutate(updateShow.id), setUpdateShow({ show: false, id: 0 });}
     const queryClient = useQueryClient();
     
+
+    const deletePatient = (patientId) => setDeleteShow({show: true, id: patientId });
+    const updatePatient = (patientId) => setUpdateShow({show: true, id: patientId });
+
     const { data, isSuccess } = useFetchPatientList();
-
-    const deletePatient = (patientId) => {
-        setDeleteShow({show: true, id: patientId });
-        //mutate(patientId)
-    };
-
     const { mutate } = useMutation( 
         (patientId) => {
                return fetchPatientDelete(patientId);
@@ -128,14 +130,14 @@ const Patients: React.FC = () => {
                                 <td>{gender[item.gender]}</td>
                                 <td>
                                     <Button 
-                                        onClick={handleShow}
+                                        onClick={() => { updatePatient(item.id) }}
                                         style={{marginLeft: 12, backgroundColor: '#6813D5' }}
                                     >
                                         <FontAwesomeIcon 
                                             icon={ faEdit } 
                                         />
                                     </Button>
-                                    <Button onClick={(e) => {deletePatient(item.id)}}  
+                                    <Button onClick={() => {deletePatient(item.id)}}  
                                         variant="danger"
                                         style={{marginLeft: 12}}
                                     >
@@ -151,6 +153,9 @@ const Patients: React.FC = () => {
                         </tbody>
                         </Table >          
                         <PatientCreate close={handleClose} isOpen={show} />
+
+                        <PatientUpdate close={handleUpdateClose} isOpen={updateShow.show} patientId={updateShow.id}/>
+
                         <Modal show={deleteShow.show} onHide={handleDeleteClose}>
                             <Modal.Header closeButton>
                               <Modal.Title>Confirmação</Modal.Title>

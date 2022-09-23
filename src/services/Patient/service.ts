@@ -45,6 +45,12 @@ export async function fetchPatientDelete(patientId: number): PatientProfileDto {
     return data;   
 }
 
+export async function fetchPatientById(patientId: number): PatientProfileDto {
+    const url = `patients/${patientId}`;
+    const { data } = await api.get(url);
+    return data;   
+}
+
 // import api from "../api";
 // import {
 //   IProfessionalId,

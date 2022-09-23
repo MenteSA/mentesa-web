@@ -21,6 +21,7 @@ export interface IPatientCreateDto extends PatientProfileDto {
 }
 
 export interface IPatientDto {
+    id: number;
     nome: string;
     cpf: string;
     gender: string;
@@ -33,7 +34,7 @@ export interface IPatientDto {
 
 export interface IResponsePatientListDto {
   data: {
-    session: ISessionDto[];
+    patient: IPatientDto[];
   };
   message: string;
 }
