@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 import { fetchPatientCreate } from '../../../services/Patient/service';
 import { useFetchPatientById } from '../../../services/Patient/hooks';
 import { toast } from "react-toastify";
-import { PatientProfileDto } from '../../services/Patient/dtos/Patient.dto';
+import { PatientProfileDto, IPatientDto } from '../../services/Patient/dtos/Patient.dto';
 
 type CloseModal = () => void;
 
@@ -28,6 +28,8 @@ const selectStyle = {
 }
 
 const PatientUpdate: React.FC<IModalProps> = ({close, isOpen, patientId }: IModalProps) => {
+    
+  const data = useFetchPatientById(patientId);
 
   const [nome, setNome] = useState("");
   const [dateNasc, setDateNasc] = useState("");
@@ -39,19 +41,15 @@ const PatientUpdate: React.FC<IModalProps> = ({close, isOpen, patientId }: IModa
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
-  console.log('updateId', patientId);
-
-    const { data } = useFetchPatientById(patientId);
     useEffect( () => {
         if (data) {
-            console.log('patientData', data);
-            const birthDate = data.patient.birthDate.replace(/T.*/,'').split('-').reverse().join('/');
-            setNome(data.patient.name);
-            setCpf(data.patient.cpf);
-            setGenero(data.patient.gender);
-            setEmail(data.patient.email)
-            setTelefone(data.patient.cellphone);
-            setDateNasc(birthDate);
+            //const birthDate = data.birthDate.replace(/T.*/,'').split('-').reverse().join('/');
+            /*setNome(data.name);
+            setCpf(data.cpf);
+            setGenero(data.gender);
+            setEmail(data.email)
+            setTelefone(data.cellphone);
+            setDateNasc(birthDate);*/
         } 
     },[data]);
   const { mutate } = useMutation( 
@@ -111,6 +109,7 @@ const PatientUpdate: React.FC<IModalProps> = ({close, isOpen, patientId }: IModa
           <Input
             type="text"
             placeholder="Nome"
+            value={nome}
             onChange={(e) => {
               setNome(e.target.value);
             }}
