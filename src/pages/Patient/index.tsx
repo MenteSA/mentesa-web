@@ -32,7 +32,9 @@ const Patients: React.FC = () => {
     
 
     const deletePatient = (patientId) => setDeleteShow({show: true, id: patientId });
-    const updatePatient = (patientId) => setUpdateShow({show: true, id: patientId });
+    const updatePatient = (patientId) => {
+        setUpdateShow({show: true, id: patientId })
+    };
 
     const { data, isSuccess } = useFetchPatientList();
     const { mutate } = useMutation( 

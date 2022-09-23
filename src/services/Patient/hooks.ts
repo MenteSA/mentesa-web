@@ -20,7 +20,6 @@ export function useFetchPatientList(): UseQueryResult<IResponsePatientListDto> {
 
 export function useFetchPatientById(patientId: number): UseQueryResult<IPatientDto> {
   const queryKey = ["patientById"];
-
   return useQuery(queryKey, () => fetchPatientById(patientId), {
     keepPreviousData: true,
   });
