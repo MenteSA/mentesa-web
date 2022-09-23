@@ -83,14 +83,12 @@ const PatientCreate: React.FC<IModalProps> = ({close, isOpen }: IModalProps) => 
 
   return (
   <Modal show={isOpen} onHide={close}>
-    <Modal.Header closeButton>
+    <Modal.Header closeButton> 
+        <Modal.Title>Novo recurso</Modal.Title>
     </Modal.Header> 
     <Modal.Body>
         <FormLayoutPatient 
           handleSubmit={handleSubmit}
-          title="Mente Sã"
-          subtitle="Cadastro de paciente"
-          information=""
         >
           <Input
             type="text"

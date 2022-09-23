@@ -13,6 +13,12 @@ import SessionCreate from "./create/index";
 import { useSessionList } from "../../services/Session/hooks";
 import { customFormatDate } from "../../utils/formatDate";
 
+const sessionType = {
+    'INDIVIDUAL': 'Individual',
+    'COUPLE': 'Casal',
+    'IN_GROUP': 'Em grupo',
+}
+
 const Session: React.FC = () => {
   const [show, setShow] = useState(false);
 
@@ -119,7 +125,7 @@ const Session: React.FC = () => {
                         <strong>{row.duration} min</strong>
                       </td>
                       <td>
-                        <strong>{row.Schedule.scheduleType}</strong>
+                        <strong>{sessionType[row.Schedule.scheduleType]}</strong>
                       </td>
                       <td>
                         <Button

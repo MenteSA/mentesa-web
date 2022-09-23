@@ -3,7 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Multiselect from 'multiselect-react-dropdown';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useFetchPatients } from '../../../services/Patient/hooks';
+import { useFetchPatientList as useFetchPatients } from '../../../services/Patient/hooks';
 
 interface IScheduleProps {
   id?: number;
