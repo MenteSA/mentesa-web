@@ -34,7 +34,7 @@ const UserProvider: React.FC<ILayoutProps> = ({ children }) => {
   }, []);
 
   const isAdmin = useMemo(() => {
-    return authenticatedUser.role === "ADMIN";
+    return authenticatedUser ? authenticatedUser.role === "ADMIN" : false;
   }, [authenticatedUser]);
 
   const setAuthenticatedUser = useCallback((authenticatedUser: ILoginDto) => {
