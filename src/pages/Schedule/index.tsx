@@ -126,7 +126,7 @@ const Schedule: React.FC = () => {
 
             <Modal show={show}>
               <Modal.Header>
-                <Modal.Title>Cadastrar Sessão</Modal.Title>
+                <Modal.Title>Cadastrar Agendamento</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <ScheduleCreate />
