@@ -8,7 +8,11 @@ import { useFetchPatientList, fetchPatientList } from '../../services/Patient/ho
 import { PatientProfileDto } from '../../services/Patient/dtos/Patient.dto';
 //import { fetchProfessionalProfileUpdate } from '../../services/Patient/service';
 
-
+const gender = {
+    'FEMININE': 'Feminino',
+    'MASCULINE': 'Masculino',
+    'OTHERS': 'Outros',
+}
 
 const Patients: React.FC = () => {
     const navigate = useNavigate();
@@ -17,24 +21,6 @@ const Patients: React.FC = () => {
     const handleShow = () => setShow(true);
 
     const { data, isSuccess } = useFetchPatientList();
-    useEffect( () => {
-        if (data) {
-          console.log('patientList', data);
-          /*const tableBody = document.getElementById('listTableBody')
-
-          tableBody.detach();
-          //const table: HTMLTableElement = <HTMLTableElement> document.getElementById("listTableBody");
-          //  console.log(table);
-          data.data.forEach( (item, index) => {
-            const row = tableBody.insertRow(index);
-             
-            let th = document.createElement("th");
-            let text = document.createTextNode(item.name);
-            th.appendChild(text);
-            row.appendChild(th);
-          });*/
-        }
-    },[data]);
 
     return ( 
         <div className="content-page">
@@ -115,7 +101,7 @@ const Patients: React.FC = () => {
                                 <tr key={index}>
                                 <td>{item.name}</td>
                                 <td>{item.email}</td>
-                                <td>{item.gender}</td>
+                                <td>{gender[item.gender]}</td>
                                 <td>
                                     <Button 
                                         onClick={handleShow}
