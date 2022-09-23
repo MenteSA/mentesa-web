@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare, faEdit, faTrashCan, faMagnifyingGlassArrowRight, faBackward, faForward } from '@fortawesome/free-solid-svg-icons'
 import { Modal, Button, Table, Row, Col, Form  } from 'react-bootstrap';
 import PatientCreate from "./create/index";
+import { toast } from "react-toastify";
 import { useFetchPatientList, fetchPatientList } from '../../services/Patient/hooks';
 import { PatientProfileDto } from '../../services/Patient/dtos/Patient.dto';
-//import { fetchProfessionalProfileUpdate } from '../../services/Patient/service';
+import { fetchPatientDelete } from '../../services/Patient/service';
 
 const gender = {
     'FEMININE': 'Feminino',
@@ -17,11 +19,33 @@ const gender = {
 const Patients: React.FC = () => {
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
+    const [deleteShow, setDeleteShow] = useState({ show: false, id: 0 });
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
+    const handleDeleteClose = () => setDeleteShow({ show: false, id: 0 });
+    const handleDeleteConfirm = () => { mutate(deleteShow.id), setDeleteShow({ show: false, id: 0 });}
+    const queryClient = useQueryClient();
+    
     const { data, isSuccess } = useFetchPatientList();
 
+    const deletePatient = (patientId) => {
+        setDeleteShow({show: true, id: patientId });
+        //mutate(patientId)
+    };
+
+    const { mutate } = useMutation( 
+        (patientId) => {
+               return fetchPatientDelete(patientId);
+            }, {
+            onSuccess: (res) => {
+                toast.success('Paciente excluído com sucesso!');
+                queryClient.invalidateQueries(['patientList']);
+            },
+            onError: (msg: any) => {
+                toast.error(`Ocorreu um erro: ${msg.response.data.message}`);
+            }
+        }
+    );
     return ( 
         <div className="content-page">
             <div className="content">
@@ -111,7 +135,7 @@ const Patients: React.FC = () => {
                                             icon={ faEdit } 
                                         />
                                     </Button>
-                                    <Button  
+                                    <Button onClick={(e) => {deletePatient(item.id)}}  
                                         variant="danger"
                                         style={{marginLeft: 12}}
                                     >
@@ -126,7 +150,21 @@ const Patients: React.FC = () => {
                             
                         </tbody>
                         </Table >          
-                            <PatientCreate close={handleClose} isOpen={show} />
+                        <PatientCreate close={handleClose} isOpen={show} />
+                        <Modal show={deleteShow.show} onHide={handleDeleteClose}>
+                            <Modal.Header closeButton>
+                              <Modal.Title>Confirmação</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>Confirma a exclusão do paciente?</Modal.Body>
+                            <Modal.Footer>
+                              <Button variant="primary" onClick={handleDeleteClose}>
+                                Cancelar 
+                              </Button>
+                              <Button variant="danger" onClick={handleDeleteConfirm}>
+                                Excluir
+                              </Button>
+                            </Modal.Footer>
+                        </Modal>
                     </div>
                 </div>
             </div>
@@ -139,35 +177,3 @@ const Patients: React.FC = () => {
 };
 
 export default Patients;
-                                /*<td>
-                                    <Button 
-                                        onClick={handleShow}
-                                        style={{marginLeft: 12, backgroundColor: '#6813D5' }}
-                                    >
-                                        <FontAwesomeIcon 
-                                            icon={ faEdit } 
-                                        />
-                                    </Button>
-                                    <Button  
-                                        variant="danger"
-                                        style={{marginLeft: 12}}
-                                    >
-                                        <FontAwesomeIcon 
-                                            icon={ faTrashCan } 
-                                        />
-                                    </Button>
-                                </td>*/
-/*
-                        <Modal show={show}>
-                            <Modal.Body>
-                                <PatientCreate />
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="danger" onClick={handleClose}>
-                                Cancelar
-                                </Button>
-                                <Button variant="success" onClick={handleClose}>
-                                Salvar
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>*/

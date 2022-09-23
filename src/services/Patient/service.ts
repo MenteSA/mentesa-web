@@ -39,6 +39,11 @@ export async function fetchPatientCreate({ name, cpf, gender, email, cellphone, 
     const { data } = await api.post(url, payload);
     return data ;
 }
+export async function fetchPatientDelete(patientId: number): PatientProfileDto {
+    const url = `patients/${patientId}`;
+    const { data } = await api.delete(url);
+    return data;   
+}
 
 // import api from "../api";
 // import {
