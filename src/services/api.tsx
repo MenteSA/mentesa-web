@@ -28,12 +28,12 @@ api.interceptors.response.use(
     const refresh_token = getRefreshToken();
 
     const { verifyAuthentication } = useAuth();
-    if (error.response.status === 401 && refresh_token) {      
+    if (error.response.status === 401 && refresh_token) {
       const response = await fetchRefreshToken(JSON.parse(refresh_token));
       verifyAuthentication();
       return response;
     }
-    
+
     return Promise.reject(error);
   }
 );

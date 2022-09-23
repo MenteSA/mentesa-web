@@ -11,17 +11,19 @@ import {
 import { Modal, Button, Table, Row, Col, Form } from "react-bootstrap";
 import SessionCreate from "./create/index";
 import { useSessionList } from "../../services/Session/hooks";
+import { ISessionDto } from "../../services/Session/dtos/Session.dto";
 
 const Session: React.FC = () => {
   const [show, setShow] = useState(false);
+  const [sessionList, setSessionList] = useState<ISessionDto[]>([]);
 
-  const { data, isSuccess } = useSessionList();
+  const { data } = useSessionList();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   useLayoutEffect(() => {
-    data?.data.session.map((session: any) => {
+    data?.data.session!.map((session: ISessionDto) => {
       console.log(session);
     });
   }, []);

@@ -11,7 +11,7 @@ export interface ISessionDto {
 
 export interface IResponseSessionListDto {
   data: {
-    session: ISessionDto[];
+    session?: ISessionDto[];
   };
   message: string;
 }
