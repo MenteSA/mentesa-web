@@ -1,8 +1,32 @@
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
-import Multiselect from "multiselect-react-dropdown";
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Multiselect from 'multiselect-react-dropdown';
+import { useEffect, useState } from 'react';
+import { useFetchPatients } from '../../../services/Patient/hooks';
 
-const ScheduleCreate: React.FC = () => {
+interface IScheduleProps {
+  id?: number;
+}
+
+const ScheduleCreate: React.FC<IScheduleProps> = ({ id }) => {
+  const [limitPatient, setLimitPatient] = useState<number>(1);
+
+  const { data } = useFetchPatients();
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  const handleScheduleType = ({ target }: any) => {
+    if (target.value === 'INDIVIDUAL') {
+      setLimitPatient(1);
+    } else if (target.value === 'COUPLE') {
+      setLimitPatient(2);
+    } else {
+      setLimitPatient(999);
+    }
+  };
+
   return (
     <Form className="container mt-3 mb-3">
       <Row className="mb-3">
@@ -16,10 +40,10 @@ const ScheduleCreate: React.FC = () => {
         </Form.Group>
         <Form.Group controlId="ControlInputName" className="col col-sm-6">
           <Form.Label>Status</Form.Label>
-          <Form.Select>
-            <option>Pendente</option>
-            <option>Cancelado</option>
-            <option>Confirmado</option>
+          <Form.Select disabled={id !== null || id !== undefined}>
+            <option value={'PENDING'}>Pendente</option>
+            <option value={'CANCELED'}>Cancelado</option>
+            <option value={'REALIZED'}>Realizado</option>
           </Form.Select>
         </Form.Group>
       </Row>
@@ -28,16 +52,16 @@ const ScheduleCreate: React.FC = () => {
         <Form.Group controlId="ControlInputName" className="col col-sm-6">
           <Form.Label>Local</Form.Label>
           <Form.Select>
-            <option>Online</option>
-            <option>Presencial</option>
+            <option value={'ONLINE'}>Online</option>
+            <option value={'PRESENTIAL'}>Presencial</option>
           </Form.Select>
         </Form.Group>
         <Form.Group controlId="ControlInputType" className="col col-sm-6">
           <Form.Label>Tipo</Form.Label>
-          <Form.Select>
-            <option value="1">Individual</option>
-            <option value="2">Casal</option>
-            <option value="3">Em Grupo</option>
+          <Form.Select onChange={handleScheduleType}>
+            <option value={'INDIVIDUAL'}>Individual</option>
+            <option value={'COUPLE'}>Casal</option>
+            <option value={'IN_GROUP'}>Em Grupo</option>
           </Form.Select>
         </Form.Group>
       </Row>
@@ -46,43 +70,18 @@ const ScheduleCreate: React.FC = () => {
         <Form.Group controlId="ControlInputPatient" className="col col-sm-12">
           <Form.Label>Pacientes</Form.Label>
           <Multiselect
-            displayValue="key"
+            displayValue="name"
             onKeyPressFn={function noRefCheck() {}}
             onRemove={function noRefCheck() {}}
             onSearch={function noRefCheck() {}}
             onSelect={function noRefCheck() {}}
-            options={[
-              {
-                cat: "Group 1",
-                key: "Option 1",
-              },
-              {
-                cat: "Group 1",
-                key: "Option 2",
-              },
-              {
-                cat: "Group 1",
-                key: "Option 3",
-              },
-              {
-                cat: "Group 2",
-                key: "Option 4",
-              },
-              {
-                cat: "Group 2",
-                key: "Option 5",
-              },
-              {
-                cat: "Group 2",
-                key: "Option 6",
-              },
-              {
-                cat: "Group 2",
-                key: "Option 7",
-              },
-            ]}
+            // options={data?.data.map((id: number, name: string) => {
+            //   const patient = { id, name };
+            //   console.log(name);
+            //   return patient;
+            // })}
             showCheckbox
-            selectionLimit={1}
+            selectionLimit={limitPatient}
           />
         </Form.Group>
       </Row>

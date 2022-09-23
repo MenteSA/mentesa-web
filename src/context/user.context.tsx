@@ -4,15 +4,14 @@ import React, {
   useCallback,
   useContext,
   useMemo,
-  useState,
-} from "react";
-import { ILoginDto } from "../services/Auth/dtos/auth.dto";
+} from 'react';
+import { ILoginDto } from '../services/Auth/dtos/auth.dto';
 
 interface ILayoutProps {
   children?: ReactNode;
 }
-export const USER_EMAIL = "@menteSa-UserEmail";
-export const USER_JSON = "@menteSa-UserJson";
+export const USER_EMAIL = '@menteSa-UserEmail';
+export const USER_JSON = '@menteSa-UserJson';
 
 interface IUserContext {
   authenticatedUser: ILoginDto;
@@ -34,7 +33,7 @@ const UserProvider: React.FC<ILayoutProps> = ({ children }) => {
   }, []);
 
   const isAdmin = useMemo(() => {
-    return authenticatedUser.role === "ADMIN";
+    return authenticatedUser?.role === 'ADMIN';
   }, [authenticatedUser]);
 
   const setAuthenticatedUser = useCallback((authenticatedUser: ILoginDto) => {

@@ -21,7 +21,7 @@ export interface ISchedulePatientsDto {
 
 export interface IPatientDto {
   id?: number;
-  nome: string;
+  name: string;
   cpf: string;
   gender: string;
   birthDate: string;
