@@ -1,3 +1,3 @@
-export interface IPatientId{
-    id: string
+export interface IPatientId {
+  id: string;
 }

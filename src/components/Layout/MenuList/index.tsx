@@ -1,12 +1,12 @@
-import { Container } from "./style";
-import NavLinkMenu from "../NavLinkMenu";
+import { Container } from './style';
+import NavLinkMenu from '../NavLinkMenu';
 import {
   House,
   PeopleFill,
   CalendarEvent,
   Calendar3,
   CardText,
-} from "react-bootstrap-icons";
+} from 'react-bootstrap-icons';
 
 interface IProps {
   professional: boolean;
@@ -15,22 +15,22 @@ interface IProps {
 const MenuList: React.FC<IProps> = ({ professional }) => {
   return (
     <Container>
-      <NavLinkMenu navigateTo="/" title="Dashboard">
+      <NavLinkMenu navigateTo="/dashboard" title="Dashboard">
         <House size={22} />
       </NavLinkMenu>
       {professional && (
-        <NavLinkMenu navigateTo="/patients" title="Pacientes">
+        <NavLinkMenu navigateTo="/pacientes" title="Pacientes">
           <PeopleFill size={22} />
         </NavLinkMenu>
       )}
-      <NavLinkMenu navigateTo="/sessions" title="Sessão">
+      <NavLinkMenu navigateTo="/sessoes" title="Sessões">
         <CalendarEvent size={22} />
       </NavLinkMenu>
-      <NavLinkMenu navigateTo="/schedulling" title="Agendamento">
+      <NavLinkMenu navigateTo="/agendamentos" title="Agendamentos">
         <Calendar3 size={22} />
       </NavLinkMenu>
       {professional && (
-        <NavLinkMenu navigateTo="/resources" title="Recursos">
+        <NavLinkMenu navigateTo="/recursos" title="Recursos">
           <CardText size={22} />
         </NavLinkMenu>
       )}

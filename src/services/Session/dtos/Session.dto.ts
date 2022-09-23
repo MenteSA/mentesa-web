@@ -1,30 +1,61 @@
-import { PatientDto } from "../../Patient/dtos/Patient.dto";
-import { IProfessional } from "../../Profissional/dtos/IProfessional";
-
-export interface SessionCreateDto {
-  professional: string;
-  patient: string;
-  appointmentDate: string;
-  status: string;
-  topic: string;
-  appointmentType: string;
-  sessionType: string;
+export interface ISessionDto {
+  id: number;
+  subject: string;
+  duration: number;
+  professionalId: number;
+  scheduleId: number;
+  resourceId: number;
   createdAt: string;
+  updateddAt: string;
+  Schedule: IScheduleInterface;
+  Resource: IResource;
 }
 
-export interface SessionDto {
-  id: string;
-  professional: IProfessional;
-  patient: PatientDto;
-  appointmentDate: string;
-  status: string;
-  topic: string;
-  appointmentType: string;
-  sessionType: string;
+interface IScheduleInterface {
+  id: number;
+  sessionDate: string;
+  status: "PENDING" | "REALIZED" | "CANCELED";
+  type: "ONLINE" | "PRESENTIAL";
+  scheduleType: "INDIVIDUAL" | "COUPLE" | "IN_GROUP";
+  professionalId: number;
   createdAt: string;
+  updatedAt: string;
+  PatientsSchedule: IPatient[];
 }
 
-export interface SessionPKsDto {
-  professionalId: string;
-  sessionId: string;
+interface IPatient {
+  id: number;
+  name: string;
+  cpf: string;
+  email: string;
+  gender: string;
+  cellphone: string;
+  birthDate: string;
+  professionalId: number;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface IResource {
+  id: number;
+  professionalId: number;
+  title: string;
+  category: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IResponseSessionListDto {
+  data: {
+    session?: ISessionDto[];
+  };
+  message: string;
+}
+
+export interface ISessionBodyDto {
+  subject?: string;
+  duration?: number;
+  scheduleId?: number;
+  resourceId?: number;
 }

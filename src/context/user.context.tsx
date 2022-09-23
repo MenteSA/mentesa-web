@@ -12,6 +12,7 @@ interface ILayoutProps {
   children?: ReactNode;
 }
 export const USER_EMAIL = "@menteSa-UserEmail";
+export const USER_JSON = "@menteSa-UserJson";
 
 interface IUserContext {
   authenticatedUser: ILoginDto;
@@ -24,18 +25,20 @@ interface IUserContext {
 const UserContext = createContext<IUserContext>({} as IUserContext);
 
 const UserProvider: React.FC<ILayoutProps> = ({ children }) => {
-  const [user, setUser] = useState<ILoginDto>({} as ILoginDto);
+  const authenticatedUser = useMemo(() => {
+    const json = localStorage.getItem(USER_JSON);
+    if (json) {
+      const user = JSON.parse(localStorage.getItem(USER_JSON)!);
+      return user;
+    }
+  }, []);
 
   const isAdmin = useMemo(() => {
-    return user.role === "ADMIN";
-  }, [user]);
-
-  const authenticatedUser = useMemo(() => {
-    return user;
-  }, [user]);
+    return authenticatedUser ? authenticatedUser.role === "ADMIN" : false;
+  }, [authenticatedUser]);
 
   const setAuthenticatedUser = useCallback((authenticatedUser: ILoginDto) => {
-    setUser(authenticatedUser);
+    localStorage.setItem(USER_JSON, JSON.stringify(authenticatedUser));
   }, []);
 
   const saveEmail = useCallback((email: string) => {

@@ -1,25 +1,23 @@
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlusSquare,
   faEdit,
   faTrashCan,
-  faBackward,
   faMagnifyingGlassArrowRight,
-  faForward,
 } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button, Table, Row, Col, Form } from "react-bootstrap";
-import SessionCreate from "./create/index";
-import { useSessionList } from "../../services/Session/hooks";
+import { useScheduleList } from "../../services/Schedule/hooks";
+import ScheduleCreate from "./create/index";
 import { customFormatDate } from "../../utils/formatDate";
 
-const Session: React.FC = () => {
+const Schedule: React.FC = () => {
   const [show, setShow] = useState(false);
-
-  const { data, isSuccess } = useSessionList();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const { data, isSuccess } = useScheduleList();
 
   return (
     <div className="content-page">
@@ -30,7 +28,7 @@ const Session: React.FC = () => {
               <Row>
                 <Col sm={12}>
                   <h4 style={{ color: "#666666", fontSize: 32 }}>
-                    Minhas sessões
+                    Meus Agendamentos
                   </h4>
                 </Col>
                 <Col sm={6}>
@@ -67,59 +65,37 @@ const Session: React.FC = () => {
                     }}
                   >
                     <FontAwesomeIcon icon={faPlusSquare} />
-                    <span style={{ marginLeft: 6 }}>Nova Sessão</span>
+                    Novo
                   </Button>
                 </Col>
               </Row>
             </Table>
 
-            <div style={{ float: "right", marginBottom: 6 }}>
-              <Button variant="outline-primary" style={{ marginRight: 12 }}>
-                <FontAwesomeIcon icon={faBackward} />
-                <span style={{ marginLeft: 6 }}>Anterior</span>
-              </Button>
-              <Button variant="outline-secondary">
-                <FontAwesomeIcon
-                  icon={faForward}
-                  style={{ float: "right", marginTop: 3 }}
-                />
-                <span style={{ marginRight: 6 }}>Seguinte</span>
-              </Button>
-            </div>
-
             <Table className="table table-striped table-hover">
               <thead style={{ background: "#6813D5" }}>
                 <tr>
-                  {/* <th style={{ color: "#fff" }}>Paciente</th> */}
-                  <th style={{ color: "#fff" }}>Agendamento</th>
-                  <th style={{ color: "#fff" }}>Tema Abordado</th>
-                  <th style={{ color: "#fff" }}>Duração</th>
-                  <th style={{ color: "#fff" }}>Tipo de sessão</th>
+                  <th style={{ color: "#fff" }}>Data</th>
+                  <th style={{ color: "#fff" }}>Status</th>
+                  <th style={{ color: "#fff" }}>Local</th>
+                  <th style={{ color: "#fff" }}>Tipo</th>
                   <th style={{ color: "#fff" }}>Ações</th>
                 </tr>
               </thead>
               <tbody>
                 {isSuccess &&
-                  data?.data.session?.map((row, index) => (
+                  data?.data.map((row, index) => (
                     <tr key={index}>
-                      {/* <td>
-                        <strong>
-                          {row.Schedule.PatientsSchedule.at(0)?.cpf}
-                        </strong>
-                      </td> */}
                       <td>
-                        <strong>
-                          {customFormatDate(row.Schedule.sessionDate)}
-                        </strong>
+                        <strong>{customFormatDate(row.sessionDate)}</strong>
                       </td>
                       <td>
-                        <strong>{row.subject}</strong>
+                        <strong>{row.status}</strong>
                       </td>
                       <td>
-                        <strong>{row.duration} min</strong>
+                        <strong>{row.scheduleType}</strong>
                       </td>
                       <td>
-                        <strong>{row.Schedule.scheduleType}</strong>
+                        <strong>{row.type}</strong>
                       </td>
                       <td>
                         <Button
@@ -142,10 +118,10 @@ const Session: React.FC = () => {
 
             <Modal show={show}>
               <Modal.Header>
-                <Modal.Title>Cadastrar Sessão</Modal.Title>
+                <Modal.Title>Cadastrar Agendamento</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <SessionCreate />
+                <ScheduleCreate />
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="danger" onClick={handleClose}>
@@ -163,4 +139,4 @@ const Session: React.FC = () => {
   );
 };
 
-export default Session;
+export default Schedule;
